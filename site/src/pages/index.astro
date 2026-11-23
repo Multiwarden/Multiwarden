@@ -22,6 +22,7 @@ import { getReleases, latestFor, formatDate } from "../lib/releases";
 const releases = await getReleases();
 const latest = releases.find((r) => !r.prerelease) ?? releases[0];
 const recent = releases.slice(0, 3);
+const browserReleased = Boolean(latestFor(releases, "browser"));
 
 const platformCards = platforms.map((p) => {
   const release = latestFor(releases, p.id);
@@ -82,7 +83,7 @@ const trust = [
   {
     icon: RefreshCw,
     title: "Keeps up with Bitwarden",
-    text: "The browser extension checks for new Bitwarden releases every night. Updates that apply cleanly are built, tested and released automatically.",
+    text: "The browser extension is set up to check for new Bitwarden releases every night, and to build, test and release updates that apply cleanly.",
   },
 ];
 
@@ -105,7 +106,9 @@ const faq = [
   },
   {
     q: "Which platforms are supported?",
-    a: "The browser extension is available now for Chrome, Edge, Opera and Firefox, and Chromium-based browsers such as Brave and Vivaldi use the Chrome build. Safari has an unsigned test build for macOS. It isn’t in the browser stores yet, so you install it by hand. Android is in development, followed by desktop and later iOS.",
+    a: browserReleased
+      ? "The browser extension is available now for Chrome, Edge, Opera and Firefox, and Chromium-based browsers such as Brave and Vivaldi use the Chrome build. Safari has an unsigned test build for macOS. It isn’t in the browser stores yet, so you install it by hand. Android is in development, followed by desktop and later iOS."
+      : "The browser extension comes first, for Chrome, Edge, Opera and Firefox, with an unsigned test build for Safari on macOS. Its first release will appear on the download page as soon as it’s published. Android is in development, followed by desktop and later iOS.",
   },
 ];
 ---
@@ -129,7 +132,7 @@ const faq = [
           class="group inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 py-1 pr-3 pl-1 text-sm text-zinc-600 shadow-sm backdrop-blur transition hover:border-brand-500/40 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
         >
           <span class="pill bg-brand-500 text-white">New</span>
-          {latest ? `${latest.platformName} ${latest.version} is out` : "Browser extension out now, Android next"}
+          {latest ? `${latest.platformName} ${latest.version} is out` : "Browser extension and Android in development"}
           <ArrowRight class="size-3.5 transition group-hover:translate-x-0.5" />
         </a>
 
