@@ -29,3 +29,8 @@ and Settings pages; avatar values in `libs/common/src/multiwarden/account-avatar
 Autofill suggestions show the account email after the subtitle
 ([android#1](https://github.com/multiwarden/android/pull/1)). In-app screens follow with
 [`combined-vault`](combined-vault.md).
+
+### Desktop
+
+Account badge on each vault row and the vault banner in the item drawer
+([clients#25](https://github.com/multiwarden/clients/pull/25)).

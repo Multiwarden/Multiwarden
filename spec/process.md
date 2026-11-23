@@ -109,3 +109,15 @@ Used in every repository, so the board can pick items up:
 | ---------- | ----------------------------------------------- |
 | `feature`  | Feature issues (here) and feature pull requests |
 | `platform` | Platform sub-issues (platform repositories)     |
+
+## Desktop runtime
+
+The desktop app runs on Electron, like Bitwarden's, so it keeps every desktop feature and
+Bitwarden's updates merge in automatically. Moving it to **Tauri** (smaller, lighter) is planned
+for later. Until then, desktop work keeps that move cheap: Multiwarden logic runs in the app's
+web UI through Bitwarden's own services and adds no Electron IPC, and every Electron
+main-process difference is listed in one file,
+`apps/desktop/src/multiwarden/main/multiwarden-main.ts` in multiwarden/clients. A port has to
+replace Bitwarden's Electron main process (windows, tray, menus, storage, IPC to the Rust
+native module), so it is a project of its own, with its own issue, once the desktop column is
+complete.

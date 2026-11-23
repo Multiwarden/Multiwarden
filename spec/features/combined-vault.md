@@ -34,5 +34,7 @@ Planned after [`multi-account-autofill`](multi-account-autofill.md).
 
 ### Desktop
 
-Next platform in multiwarden/clients: reuses `libs/angular/src/multiwarden`, needs a desktop
-`MultiwardenPlatform` and hooks in the desktop vault screens.
+Same shared core; `DesktopMultiwardenPlatform` and the desktop hooks in
+`apps/desktop/src/multiwarden/` ([clients#25](https://github.com/multiwarden/clients/pull/25)).
+"Combined" is in the account switcher. Not yet: folder, organization and collection filters show
+the active account's only (rule 2).
