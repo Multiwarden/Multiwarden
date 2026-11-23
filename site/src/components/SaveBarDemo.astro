@@ -1,0 +1,47 @@
+---
+// The extension's save-login bar with Multiwarden's account picker open.
+// real/save-bar.html and real/save-bar.css were rendered from the extension's own notification
+// components (apps/browser/src/autofill/content/components in multiwarden/clients, light theme)
+// with two unlocked accounts, then scoped under .mw-savebar. The header icon is Multiwarden's logo.
+import html from "./real/save-bar.html?raw";
+import "./real/save-bar.css";
+---
+
+<div class="savebar-stage relative mx-auto w-full max-w-[26rem]" aria-hidden="true">
+  <div class="mw-savebar">
+    <Fragment set:html={html} />
+  </div>
+</div>
+
+<style is:global>
+  .mw-savebar {
+    width: 400px;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    font-family: Inter, "Inter Variable", sans-serif;
+    text-align: left;
+  }
+  /* In the extension the bar floats at the top right of the page; here it sits in the flow. */
+  .mw-savebar > div {
+    position: relative !important;
+    right: auto !important;
+    width: 100% !important;
+  }
+  .mw-savebar button {
+    cursor: default;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .savebar-stage .mw-savebar {
+      animation: savebar-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+  }
+  @keyframes savebar-in {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+  }
+</style>
