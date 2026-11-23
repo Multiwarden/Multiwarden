@@ -46,8 +46,8 @@ the website and store listings. When the logo changes there, copy `logo512.png` 
 ## Website
 
 The site is a static [Astro](https://astro.build) project in `site/`, styled with Tailwind CSS.
-It has a homepage, a download page per platform, a combined release timeline and the privacy
-policy.
+It has a homepage, a download page per platform, a combined release timeline, the privacy
+policy and the welcome page (`/welcome/`) that the browser extension opens after it is installed.
 
 ```sh
 cd site

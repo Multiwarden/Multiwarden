@@ -1,0 +1,123 @@
+---
+// The browser extension opens this page once, right after it is installed.
+// Keep every step in line with what the extension does today; the UI names quoted here
+// ("Manage accounts", "Add account", "Combined", Settings → Multiwarden) are the extension's own.
+import Base from "../layouts/Base.astro";
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Pin from "@lucide/astro/icons/pin";
+import PowerOff from "@lucide/astro/icons/power-off";
+import LogIn from "@lucide/astro/icons/log-in";
+import UserPlus from "@lucide/astro/icons/user-plus";
+import LayoutGrid from "@lucide/astro/icons/layout-grid";
+import SlidersHorizontal from "@lucide/astro/icons/sliders-horizontal";
+import GitHubMark from "../components/GitHubMark.astro";
+import { github } from "../data/platforms";
+
+const steps = [
+  {
+    icon: Pin,
+    title: "Pin Multiwarden to the toolbar",
+    text: "Most browsers put new extensions in the extensions menu next to the address bar, often shown as a puzzle piece. Pin Multiwarden there so it is one click away.",
+  },
+  {
+    icon: PowerOff,
+    title: "Turn off the official Bitwarden extension",
+    text: "If you also have the Bitwarden extension, turn it off while you use Multiwarden. Two password managers on one page fight over autofill and save prompts.",
+  },
+  {
+    icon: LogIn,
+    title: "Sign in to your first account",
+    text: "Open Multiwarden and sign in with an existing Bitwarden account, on bitwarden.com, bitwarden.eu or your own self-hosted server.",
+  },
+  {
+    icon: UserPlus,
+    title: "Add your other accounts",
+    text: "Select your avatar at the top of the extension, choose <em>Manage accounts</em>, then <em>Add account</em>. You can be signed in to up to five accounts.",
+  },
+];
+
+const tips = [
+  {
+    icon: LayoutGrid,
+    title: "Combined view",
+    text: "Once you are signed in to more than one account, the avatar menu offers <em>Combined</em>: every unlocked vault in one list, each item marked with its account.",
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Multiwarden settings",
+    text: "Under <em>Settings → Multiwarden</em> you choose which account autofill on page load may use, whether to remember which account you save to per site, and whether to hide Premium notices.",
+  },
+];
+---
+
+<Base
+  title="Welcome"
+  description="Multiwarden is installed. Set it up in a few steps and bring all your Bitwarden accounts together."
+>
+  <section class="relative isolate overflow-hidden">
+    <div
+      class="pointer-events-none absolute top-[-14rem] left-1/2 -z-10 h-[36rem] w-[64rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-brand-500/25 via-violet-500/10 to-transparent blur-3xl"
+    >
+    </div>
+    <div class="container-page max-w-3xl pt-16 pb-12 text-center sm:pt-24">
+      <img src="/logo.png" alt="" width="64" height="64" class="mx-auto size-16 rounded-2xl shadow-xl shadow-brand-500/20" />
+      <p class="eyebrow mt-8">Multiwarden is installed</p>
+      <h1 class="mt-3 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl">
+        All your vaults, <span class="text-gradient">working as one.</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-pretty text-zinc-600 dark:text-zinc-400">
+        A few steps and every account you unlock takes part in autofill, saving and passkeys, at the same time.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page max-w-4xl">
+    <ol class="grid gap-4 sm:grid-cols-2">
+      {
+        steps.map((s, i) => (
+          <li class="card relative p-7" data-reveal>
+            <div class="flex items-center gap-3">
+              <span class="grid size-11 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/25">
+                <s.icon class="size-5" />
+              </span>
+              <span class="text-sm font-semibold text-zinc-400 dark:text-zinc-500">Step {i + 1}</span>
+            </div>
+            <h2 class="mt-5 text-lg font-semibold tracking-tight">{s.title}</h2>
+            <p class="mt-2 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400" set:html={s.text} />
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="container-page max-w-4xl pt-20">
+    <div class="max-w-xl" data-reveal>
+      <p class="eyebrow">Good to know</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight">Make it yours.</h2>
+    </div>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        tips.map((t) => (
+          <div class="card p-7" data-reveal>
+            <span class="grid size-10 place-items-center rounded-lg bg-zinc-100 text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+              <t.icon class="size-5" />
+            </span>
+            <h3 class="mt-4 font-semibold">{t.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400" set:html={t.text} />
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 flex flex-wrap items-center gap-3" data-reveal>
+      <a href="/#features" class="btn btn-primary">What Multiwarden does <ArrowRight class="size-4" /></a>
+      <a href={github.issues} class="btn btn-secondary">
+        <GitHubMark class="size-4" />
+        Report an issue
+      </a>
+      <a href="/privacy/" class="btn text-zinc-600 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white">
+        Privacy policy
+      </a>
+    </div>
+  </section>
+</Base>
