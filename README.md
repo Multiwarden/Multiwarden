@@ -36,6 +36,8 @@ repositories.
 | `logo/`                       | The logo (512 px) and the 128 px store icon.                                                         |
 | `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                                  |
 | `.github/workflows/pages.yml` | Deploys `site/` to GitHub Pages on every change to `main`.                                           |
+| `spec/`                       | The feature spec every platform builds from, and the [feature parity table](spec/parity.md).         |
+| `.github/ISSUE_TEMPLATE/`     | The **Feature** issue form ([process](spec/process.md)).                                             |
 
 The extension's own icons are built from `multiwarden/branding/` in
 [multiwarden/clients](https://github.com/multiwarden/clients); the files in `logo/` are copies for
