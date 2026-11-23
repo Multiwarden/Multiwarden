@@ -3,11 +3,11 @@
 <h1 align="center">Multiwarden</h1>
 
 <p align="center">
-  Every unlocked Bitwarden account, working at once.
+  All your vaults, working as one.
 </p>
 
 <p align="center">
-  <a href="https://multiwarden.mteij.nl">Website</a> ·
+  <a href="https://multiwarden.com">Website</a> ·
   <a href="https://github.com/multiwarden/clients/releases">Releases</a> ·
   <a href="https://github.com/multiwarden/clients">Browser extension</a>
 </p>
@@ -34,6 +34,7 @@ repositories.
 | ----------------------------- | ------------------------------------------------------------------------------------------ |
 | `site/`                       | The website, an Astro + Tailwind CSS project. Lists every platform's releases from GitHub. |
 | `logo/`                       | The logo (512 px) and the 128 px store icon.                                               |
+| `screenshots/`                | Screenshots of the apps, for the website and README.                                       |
 | `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                        |
 | `.github/workflows/pages.yml` | Builds `site/` and deploys it to GitHub Pages; also rebuilds when releases change.         |
 
