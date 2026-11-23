@@ -3,11 +3,11 @@
 <h1 align="center">Multiwarden</h1>
 
 <p align="center">
-  Every unlocked Bitwarden account, working at once.
+  All your vaults, working as one.
 </p>
 
 <p align="center">
-  <a href="https://multiwarden.mteij.nl">Website</a> ·
+  <a href="https://multiwarden.com">Website</a> ·
   <a href="https://github.com/multiwarden/clients/releases">Releases</a> ·
   <a href="https://github.com/multiwarden/clients">Browser extension</a>
 </p>
@@ -30,14 +30,14 @@ repositories.
 
 ## In this repository
 
-| Path                          | Contents                                                                                             |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `site/`                       | The website at multiwarden.mteij.nl (mu.css, indigo theme). Lists releases live from the GitHub API. |
-| `logo/`                       | The logo (512 px) and the 128 px store icon.                                                         |
-| `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                                  |
-| `.github/workflows/pages.yml` | Deploys `site/` to GitHub Pages on every change to `main`.                                           |
-| `spec/`                       | The feature spec every platform builds from, and the [feature parity table](spec/parity.md).         |
-| `.github/ISSUE_TEMPLATE/`     | The **Feature** issue form ([process](spec/process.md)).                                             |
+| Path                          | Contents                                                                                        |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| `site/`                       | The website at multiwarden.com (mu.css, indigo theme). Lists releases live from the GitHub API. |
+| `logo/`                       | The logo (512 px) and the 128 px store icon.                                                    |
+| `screenshots/`                | Screenshots of the apps, for the website and README.                                            |
+| `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                             |
+| `.github/workflows/pages.yml` | Deploys `site/` to GitHub Pages on every change to `main`.                                      |
+| `spec/`                       | The feature spec every platform builds from, and the [feature parity table](spec/parity.md).    |
 
 The extension's own icons are built from `multiwarden/branding/` in
 [multiwarden/clients](https://github.com/multiwarden/clients); the files in `logo/` are copies for
@@ -50,7 +50,7 @@ The site is a single static page, `site/index.html`. Open it in a browser to pre
 release list loads from the GitHub API either way.
 
 Publishing needs GitHub Pages set to **GitHub Actions** (Settings → Pages → Source) and the
-custom domain `multiwarden.mteij.nl` entered there. `site/CNAME` keeps the domain in the
+custom domain `multiwarden.com` entered there. `site/CNAME` keeps the domain in the
 deployed site.
 
 ## License and trademarks
