@@ -30,13 +30,14 @@ repositories.
 
 ## In this repository
 
-| Path                          | Contents                                                                                   |
-| ----------------------------- | ------------------------------------------------------------------------------------------ |
-| `site/`                       | The website, an Astro + Tailwind CSS project. Lists every platform's releases from GitHub. |
-| `logo/`                       | The logo (512 px) and the 128 px store icon.                                               |
-| `screenshots/`                | Screenshots of the apps, for the website and README.                                       |
-| `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                        |
-| `.github/workflows/pages.yml` | Builds `site/` and deploys it to GitHub Pages; also rebuilds when releases change.         |
+| Path                          | Contents                                                                                     |
+| ----------------------------- | -------------------------------------------------------------------------------------------- |
+| `site/`                       | The website, an Astro + Tailwind CSS project. Lists every platform's releases from GitHub.   |
+| `logo/`                       | The logo (512 px) and the 128 px store icon.                                                 |
+| `screenshots/`                | Screenshots of the apps, for the website and README.                                         |
+| `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                          |
+| `.github/workflows/pages.yml` | Builds `site/` and deploys it to GitHub Pages; also rebuilds when releases change.           |
+| `spec/`                       | The feature spec every platform builds from, and the [feature parity table](spec/parity.md). |
 
 The extension's own icons are built from `multiwarden/branding/` in
 [multiwarden/clients](https://github.com/multiwarden/clients); the files in `logo/` are copies for

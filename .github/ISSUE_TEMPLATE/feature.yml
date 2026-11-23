@@ -1,0 +1,42 @@
+name: Feature
+description: A Multiwarden feature that every platform builds from the same spec.
+title: "Feature: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One issue per feature. Each platform gets a sub-issue in its own repository
+        (see [spec/process.md](https://github.com/multiwarden/multiwarden/blob/main/spec/process.md)).
+  - type: input
+    id: feature-id
+    attributes:
+      label: Feature ID
+      description: The spec page's file name, for example `save-account-picker`.
+      placeholder: save-account-picker
+    validations:
+      required: true
+  - type: input
+    id: spec
+    attributes:
+      label: Spec page
+      description: Link to `spec/features/<id>.md`, or the pull request that adds it.
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What the user gets
+      description: One or two sentences, from the user's side.
+    validations:
+      required: true
+  - type: checkboxes
+    id: platforms
+    attributes:
+      label: Platforms
+      description: Tick each platform the feature applies to, then open a sub-issue for it.
+      options:
+        - label: Browser extension (multiwarden/clients)
+        - label: Android (multiwarden/android)
+        - label: Desktop (multiwarden/clients)
+        - label: iOS

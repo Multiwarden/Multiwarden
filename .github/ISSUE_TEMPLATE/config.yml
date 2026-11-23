@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Bug in the browser extension
+    url: https://github.com/multiwarden/clients/issues/new
+    about: Report extension bugs in multiwarden/clients.
+  - name: Bug in the Android app
+    url: https://github.com/multiwarden/android/issues/new
+    about: Report Android bugs in multiwarden/android.
