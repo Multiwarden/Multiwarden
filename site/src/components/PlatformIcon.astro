@@ -1,0 +1,16 @@
+---
+import Globe from "@lucide/astro/icons/globe";
+import Smartphone from "@lucide/astro/icons/smartphone";
+import Monitor from "@lucide/astro/icons/monitor";
+import TabletSmartphone from "@lucide/astro/icons/tablet-smartphone";
+import type { PlatformId } from "../data/platforms";
+
+interface Props {
+  id: PlatformId;
+  class?: string;
+}
+const { id, class: className = "size-5" } = Astro.props;
+const Icon = { browser: Globe, android: Smartphone, desktop: Monitor, ios: TabletSmartphone }[id];
+---
+
+<Icon class={className} />

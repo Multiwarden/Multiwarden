@@ -1,0 +1,103 @@
+---
+import Base from "../layouts/Base.astro";
+import ReleaseItem from "../components/ReleaseItem.astro";
+import PlatformIcon from "../components/PlatformIcon.astro";
+import GitHubMark from "../components/GitHubMark.astro";
+import { platforms, github } from "../data/platforms";
+import { getReleases, latestFor } from "../lib/releases";
+
+const releases = await getReleases();
+const latestIds = new Set(platforms.map((p) => latestFor(releases, p.id)).filter(Boolean));
+const withReleases = platforms.filter((p) => releases.some((r) => r.platform === p.id));
+---
+
+<Base title="Releases" description="Every Multiwarden release, on every platform.">
+  <section class="relative isolate overflow-hidden">
+    <div
+      class="pointer-events-none absolute top-[-16rem] left-1/2 -z-10 h-[30rem] w-[56rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-brand-500/20 to-transparent blur-3xl"
+    >
+    </div>
+    <div class="container-page pt-16 pb-10 text-center sm:pt-24">
+      <p class="eyebrow">Changelog</p>
+      <h1 class="mt-3 text-5xl font-semibold tracking-[-0.03em] text-balance sm:text-6xl">Releases</h1>
+      <p class="mx-auto mt-5 max-w-xl text-lg text-pretty text-zinc-600 dark:text-zinc-400">
+        Every Multiwarden release across all platforms, newest first.
+      </p>
+      <a href="/releases.json" class="mt-4 inline-block text-sm text-zinc-500 underline-offset-2 hover:underline">
+        Also available as JSON
+      </a>
+    </div>
+  </section>
+
+  <div class="container-page max-w-3xl pb-12">
+    {
+      withReleases.length > 1 && (
+        <div class="mb-12 flex flex-wrap justify-center gap-2" role="group" aria-label="Filter by platform" data-filters>
+          <button type="button" data-filter="all" aria-pressed="true" class="filter">
+            All
+          </button>
+          {withReleases.map((p) => (
+            <button type="button" data-filter={p.id} aria-pressed="false" class="filter">
+              <PlatformIcon id={p.id} class="size-4" />
+              {p.name}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      releases.length ? (
+        <div
+          class="relative space-y-12 before:absolute before:top-2 before:bottom-2 before:left-3.5 before:w-px before:bg-gradient-to-b before:from-zinc-200 before:to-transparent sm:before:left-[1.125rem] dark:before:from-white/15"
+          data-list
+        >
+          {releases.map((r) => (
+            <div data-reveal data-platform={r.platform}>
+              <ReleaseItem release={r} latest={latestIds.has(r)} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="card mx-auto max-w-lg p-10 text-center">
+          <h2 class="text-xl font-semibold">No releases yet</h2>
+          <p class="mt-2 text-zinc-600 dark:text-zinc-400">
+            The first Multiwarden release will show up here as soon as it’s published.
+          </p>
+          <a href={github.org} class="btn btn-secondary mt-6">
+            <GitHubMark class="size-4" /> Follow on GitHub
+          </a>
+        </div>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  @reference "../styles/global.css";
+
+  .filter {
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-sm font-medium text-zinc-600 transition hover:border-zinc-300 hover:text-zinc-950 aria-pressed:border-brand-500 aria-pressed:bg-brand-500 aria-pressed:text-white dark:border-white/10 dark:bg-white/5 dark:text-zinc-300 dark:hover:text-white dark:aria-pressed:border-brand-500 dark:aria-pressed:bg-brand-500;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+  const items = document.querySelectorAll<HTMLElement>("[data-list] > [data-platform]");
+
+  function apply(filter: string) {
+    buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
+    items.forEach((el) => (el.hidden = filter !== "all" && el.dataset.platform !== filter));
+  }
+
+  buttons.forEach((b) =>
+    b.addEventListener("click", () => {
+      const filter = b.dataset.filter!;
+      apply(filter);
+      history.replaceState(null, "", filter === "all" ? location.pathname : `?platform=${filter}`);
+    }),
+  );
+
+  const initial = new URLSearchParams(location.search).get("platform");
+  if (initial && [...buttons].some((b) => b.dataset.filter === initial)) apply(initial);
+</script>
