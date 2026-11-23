@@ -32,7 +32,7 @@ const features = [
   {
     icon: KeyRound,
     title: "Autofill from every vault",
-    text: "Inline suggestions come from all unlocked accounts at once, each labelled with the account it belongs to.",
+    text: "Inline suggestions, the context menu and the toolbar badge use all unlocked accounts at once, each login labelled with the account it belongs to.",
     wide: true,
   },
   {
@@ -54,7 +54,7 @@ const features = [
   {
     icon: BellOff,
     title: "Fewer pointless prompts",
-    text: "No “save this login?” prompt for logins you already have in any of your accounts.",
+    text: "No “save this login?” prompt for logins you already have in any of your accounts, and an option to hide Premium upgrade notices.",
   },
   {
     icon: Keyboard,
@@ -67,22 +67,22 @@ const trust = [
   {
     icon: ShieldCheck,
     title: "Bitwarden’s encryption, untouched",
-    text: "Your vaults stay end-to-end encrypted by the same code as the official apps. Multiwarden only adds small hooks on top.",
+    text: "Encryption and sync are Bitwarden’s own code. Multiwarden’s changes decide which unlocked accounts autofill, saving and passkeys use.",
   },
   {
     icon: Server,
-    title: "Your servers, nobody else’s",
-    text: "It talks only to the Bitwarden servers you choose: bitwarden.com, bitwarden.eu or your own self-hosted instance.",
+    title: "No servers of its own",
+    text: "Your vaults sync with the Bitwarden server you sign in to: bitwarden.com, bitwarden.eu or your own self-hosted instance.",
   },
   {
     icon: EyeOff,
     title: "No tracking",
-    text: "No analytics, no advertising and no Multiwarden servers. Nothing is sent to the developers.",
+    text: "Multiwarden adds no analytics, advertising or tracking, and sends nothing to its developers.",
   },
   {
     icon: RefreshCw,
-    title: "Follows every Bitwarden release",
-    text: "Upstream releases are merged automatically, so you keep getting Bitwarden’s fixes and features.",
+    title: "Keeps up with Bitwarden",
+    text: "The browser extension checks for new Bitwarden releases every night. Updates that apply cleanly are built, tested and released automatically.",
   },
 ];
 
@@ -101,11 +101,11 @@ const faq = [
   },
   {
     q: "Is my data safe?",
-    a: "Multiwarden keeps Bitwarden’s encryption and sync code as it is, and its own additions are small and open for anyone to review on GitHub. Your vault data only ever goes to the Bitwarden server you sign in to.",
+    a: "Multiwarden doesn’t change how Bitwarden encrypts or syncs your vault, and every change it makes is open for anyone to review on GitHub. Your vault data goes only to the Bitwarden server you sign in to. It is a small independent project, though, and has not had an independent security audit like Bitwarden’s own apps.",
   },
   {
     q: "Which platforms are supported?",
-    a: "The browser extension is available now for Chrome, Edge, Opera, Brave, Vivaldi, Firefox and Safari. Android is next, then desktop and iOS.",
+    a: "The browser extension is available now for Chrome, Edge, Opera and Firefox, and Chromium-based browsers such as Brave and Vivaldi use the Chrome build. Safari has an unsigned test build for macOS. It isn’t in the browser stores yet, so you install it by hand. Android is in development, followed by desktop and later iOS.",
   },
 ];
 ---
@@ -137,7 +137,7 @@ const faq = [
           All your vaults, <span class="text-gradient">working as one.</span>
         </h1>
         <p class="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-pretty text-zinc-600 lg:mx-0 dark:text-zinc-400">
-          Multiwarden is a Bitwarden client for people with more than one account. Autofill, saving and passkeys
+          Multiwarden is an unofficial Bitwarden client for people with more than one account. Autofill, saving and passkeys
           work across every vault you have unlocked, at the same time.
         </p>
 
@@ -217,8 +217,8 @@ const faq = [
             Same security. More of your accounts.
           </h2>
           <p class="mt-5 text-lg text-pretty text-zinc-400">
-            Multiwarden is a fork of the official, open-source Bitwarden apps. New logic lives in separate files
-            with small hooks into Bitwarden’s code, so it stays easy to audit and easy to keep up to date.
+            Multiwarden is a fork of the official, open-source Bitwarden apps. Its own code lives in separate files,
+            with small, marked hooks into Bitwarden’s code, so the changes are easy to review and to keep up to date.
           </p>
           <a href={github.org} class="btn mt-8 border border-white/15 bg-white/5 text-white hover:bg-white/10">
             <GitHubMark class="size-4" />
@@ -351,7 +351,7 @@ const faq = [
       <div class="absolute -right-20 -bottom-28 -z-10 size-80 rounded-full bg-fuchsia-400/30 blur-3xl"></div>
       <img src="/logo.png" alt="" class="mx-auto size-16 rounded-2xl shadow-xl ring-1 ring-white/30" />
       <h2 class="mt-6 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">All your vaults, working as one.</h2>
-      <p class="mx-auto mt-4 max-w-lg text-lg text-white/80">Free, open source, and ready in a minute.</p>
+      <p class="mx-auto mt-4 max-w-lg text-lg text-white/80">Free and open source.</p>
       <a href="/download/" class="btn mt-9 !px-6 !py-3 bg-white text-base text-brand-700 shadow-xl hover:bg-brand-50">
         Get Multiwarden <ArrowRight class="size-4" />
       </a>

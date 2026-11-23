@@ -131,7 +131,7 @@ const sections = platforms.map((p) => {
               <p>
                 {p.state === "soon"
                   ? `Multiwarden for ${p.name} is in development. The first release will appear here as soon as it’s published.`
-                  : `Multiwarden for ${p.name} is on the roadmap, after Android and the browser extension.`}
+                  : `Multiwarden for ${p.name} is on the roadmap. ${p.roadmap ?? ""}`}
               </p>
               <a href={p.repo ? `https://github.com/${p.repo}` : github.org} class="btn btn-secondary">
                 <GitHubMark class="size-4" /> Follow on GitHub

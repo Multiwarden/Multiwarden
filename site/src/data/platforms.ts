@@ -25,6 +25,8 @@ export interface Store {
 }
 
 export interface Platform {
+  /** Shown while no release exists, e.g. what it is waiting on. */
+  roadmap?: string;
   id: PlatformId;
   name: string;
   /** One line under the name. */
@@ -71,14 +73,14 @@ export const platforms: Platform[] = [
     stores: [],
     install: [
       "Download the package for your browser and unzip it.",
-      "Chromium browsers: open the extensions page, turn on <em>Developer mode</em> and choose <em>Load unpacked</em>. Firefox: open <code>about:debugging</code> and choose <em>Load Temporary Add-on</em>.",
+      "Chromium browsers: open the extensions page, turn on <em>Developer mode</em> and choose <em>Load unpacked</em>. Firefox: open <code>about:debugging</code> and choose <em>Load Temporary Add-on</em> (Firefox removes it again when it restarts).",
       "Turn off the official Bitwarden extension, then sign in to and unlock your accounts.",
     ],
   },
   {
     id: "android",
     name: "Android",
-    blurb: "Phones and tablets, with system autofill and passkeys",
+    blurb: "Phones and tablets",
     status: "soon",
     repo: "multiwarden/android",
     tagPattern: /^v\d/,
@@ -87,7 +89,6 @@ export const platforms: Platform[] = [
     install: [
       "Download the APK on your phone and open it.",
       "Allow installing from your browser when Android asks.",
-      "Open Multiwarden, sign in to your accounts, and choose it as your autofill service.",
     ],
   },
   {
@@ -95,6 +96,7 @@ export const platforms: Platform[] = [
     name: "Desktop",
     blurb: "Windows, macOS and Linux",
     status: "planned",
+    roadmap: "Planned after Android.",
     variants: [],
     stores: [],
   },
@@ -103,6 +105,7 @@ export const platforms: Platform[] = [
     name: "iOS",
     blurb: "iPhone and iPad",
     status: "planned",
+    roadmap: "Planned after desktop.",
     variants: [],
     stores: [],
   },
