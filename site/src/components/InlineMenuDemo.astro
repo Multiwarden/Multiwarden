@@ -1,0 +1,369 @@
+---
+// The extension's inline autofill menu on a sign-in page, offering one login from each of two
+// unlocked accounts. The site icon is a made-up favicon for the made-up Acme Cloud. Sizes, colours and icons follow the extension's own inline menu
+// (apps/browser/src/autofill/overlay/inline-menu in multiwarden/clients, light theme); the
+// account label after "·" is what Multiwarden adds when several accounts are unlocked.
+// Pure HTML and CSS: the menu opens, the second login is picked, and the form is filled, on a loop.
+
+const items = [
+  { name: "Acme Cloud · sam.devries@gmail.com", username: "samdevries" },
+  { name: "Acme Cloud · sam@studiolumen.nl", username: "sam-studiolumen" },
+];
+---
+
+<div class="demo relative mx-auto w-full max-w-[34rem]" aria-hidden="true">
+  <div
+    class="absolute -inset-10 -z-10 rounded-[3rem] bg-gradient-to-tr from-brand-500/30 via-violet-500/20 to-fuchsia-400/20 blur-3xl"
+  >
+  </div>
+
+  <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl shadow-brand-950/10 dark:border-white/10 dark:shadow-black/40">
+    <div class="flex items-center gap-3 border-b border-zinc-200 bg-zinc-50 px-4 py-3">
+      <div class="flex gap-1.5">
+        <span class="size-3 rounded-full bg-zinc-300"></span>
+        <span class="size-3 rounded-full bg-zinc-300"></span>
+        <span class="size-3 rounded-full bg-zinc-300"></span>
+      </div>
+      <div class="flex-1 truncate rounded-lg bg-white px-3 py-1.5 text-xs text-zinc-500 ring-1 ring-zinc-200">
+        app.acme.example/login
+      </div>
+      <img src="/logo.png" alt="" class="size-5 rounded" />
+    </div>
+
+    <div class="page">
+      <p class="page-title">Sign in to Acme Cloud</p>
+
+      <label>Email</label>
+      <div class="field field--focus">
+        <span class="value value--email">sam@studiolumen.nl</span>
+        <span class="caret"></span>
+      </div>
+
+      <div class="menu-anchor">
+        <div class="mw-inline-menu">
+          <ul class="list">
+            {
+              items.map((item, i) => (
+                <li class:list={["item", i === 1 && "item--picked"]}>
+                  <div class="cipher">
+                    <span class="cipher-icon">
+                      <svg viewBox="0 0 32 32" class="favicon">
+                        <rect width="32" height="32" rx="7" fill="#0ea5e9" />
+                        <path
+                          d="M10.5 22a4.5 4.5 0 0 1-.6-8.96 6.5 6.5 0 0 1 12.3 1.5A3.75 3.75 0 0 1 21.75 22H10.5Z"
+                          fill="#fff"
+                        />
+                      </svg>
+                    </span>
+                    <span class="cipher-details">
+                      <span class="cipher-name">{item.name}</span>
+                      <span class="cipher-subtitle">{item.username}</span>
+                    </span>
+                    <span class="view">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M20 15.5a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5H9a.5.5 0 0 0-.5.5v7A.75.75 0 0 1 7 11V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-7a.75.75 0 0 1 0-1.5h7Z" />
+                        <path d="M4 8.5a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-1.25a.75.75 0 0 1 1.5 0V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.25a.75.75 0 0 1 0 1.5H4Z" />
+                        <path d="M12 6.75c0 .414.336.75.75.75h2.69l-8.22 8.22a.75.75 0 1 0 1.06 1.06l8.22-8.22v2.69a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75Z" />
+                      </svg>
+                    </span>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <svg class="pointer" viewBox="0 0 24 24" width="22" height="22">
+          <path
+            d="M5 3l14 8-6.5 1.5L9.5 19z"
+            fill="#111"
+            stroke="#fff"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </div>
+
+      <label>Password</label>
+      <div class="field">
+        <span class="value value--password">••••••••••••••</span>
+      </div>
+
+      <p class="forgot">Forgot password?</p>
+      <div class="submit">Sign in</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* The page inside the browser window: a plain sign-in form. */
+  .page {
+    padding: 1.75rem 2rem 3rem;
+    font-family: Inter, "Inter Variable", sans-serif;
+    color: #212529;
+    background: #fff;
+  }
+  .page-title {
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #52525b;
+  }
+  .field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    padding: 0 0.75rem;
+    border: 1px solid #d4d4d8;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .field--focus {
+    margin-bottom: 0;
+    border-color: #175ddc;
+    box-shadow: 0 0 0 3px rgb(23 93 220 / 0.15);
+  }
+  .caret {
+    width: 1px;
+    height: 1.1rem;
+    background: #212529;
+  }
+  .value {
+    position: absolute;
+    left: 0.75rem;
+    opacity: 0;
+  }
+  .value--password {
+    letter-spacing: 0.1em;
+  }
+  .forgot {
+    margin: -0.25rem 0 2rem;
+    font-size: 0.8rem;
+    color: #175ddc;
+  }
+  .submit {
+    display: grid;
+    place-items: center;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background: #27272a;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .menu-anchor {
+    position: relative;
+    height: 1rem;
+    z-index: 5;
+  }
+
+  /* The inline menu, as styled by the extension (list.scss, light theme, 1rem = 10px there). */
+  .mw-inline-menu {
+    position: absolute;
+    top: 0.25rem;
+    left: 0;
+    right: 0;
+    min-width: 260px;
+    max-height: 180px;
+    overflow: hidden;
+    border: 1px solid rgb(206 212 220);
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.1) 2px 4px 6px 0px;
+    font-family: Inter, "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #212529;
+  }
+  .list {
+    margin: 0;
+    padding: 0;
+  }
+  .item {
+    list-style: none;
+    padding: 2px;
+  }
+  .item:not(:last-child) {
+    border-bottom: 1px solid #ced4dc;
+  }
+  .cipher {
+    display: flex;
+    align-items: center;
+    padding: 7px 3px 7px 7px;
+    border-radius: 4px;
+  }
+  .cipher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+  }
+  /* The site's favicon, shown at 26px like the extension's background-size: 2.6rem. */
+  .cipher-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+  .cipher-details {
+    display: block;
+    min-width: 0;
+    flex: 1;
+  }
+  .cipher-name,
+  .cipher-subtitle {
+    display: block;
+    overflow: hidden;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .cipher-name {
+    font-size: 16px;
+    color: #212529;
+  }
+  .cipher-subtitle {
+    font-size: 14px;
+    color: #6c747c;
+  }
+  .view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+  }
+  .view svg {
+    width: 20px;
+    height: 20px;
+    fill: #175ddc;
+  }
+  .pointer {
+    position: absolute;
+    top: 7.5rem;
+    right: -1.5rem;
+    opacity: 0;
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3));
+  }
+
+  /* One 9 s loop: menu opens, the second login is picked, the form fills, then it resets. */
+  @media (prefers-reduced-motion: no-preference) {
+    .mw-inline-menu {
+      animation: menu 9s infinite;
+    }
+    .item--picked .cipher {
+      animation: hover 9s infinite;
+    }
+    .pointer {
+      animation: pointer 9s infinite;
+    }
+    .value {
+      animation: value 9s infinite;
+    }
+    .caret {
+      animation: caret 9s infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .item--picked .cipher {
+      background: #f0f0f0;
+    }
+  }
+
+  @keyframes menu {
+    0%,
+    6% {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    10%,
+    46% {
+      opacity: 1;
+      transform: none;
+    }
+    49%,
+    100% {
+      opacity: 0;
+      transform: none;
+    }
+  }
+  @keyframes hover {
+    0%,
+    33% {
+      background: transparent;
+    }
+    35%,
+    46% {
+      background: #f0f0f0;
+    }
+    47%,
+    100% {
+      background: transparent;
+    }
+  }
+  @keyframes pointer {
+    0%,
+    16% {
+      opacity: 0;
+      transform: translate(3rem, 4rem);
+    }
+    20% {
+      opacity: 1;
+      transform: translate(3rem, 4rem);
+    }
+    33%,
+    42% {
+      opacity: 1;
+      transform: translate(-6rem, 0);
+    }
+    44% {
+      opacity: 1;
+      transform: translate(-6rem, 0) scale(0.85);
+    }
+    46%,
+    52% {
+      opacity: 1;
+      transform: translate(-6rem, 0);
+    }
+    58%,
+    100% {
+      opacity: 0;
+      transform: translate(-6rem, 0);
+    }
+  }
+  @keyframes value {
+    0%,
+    48% {
+      opacity: 0;
+    }
+    50%,
+    92% {
+      opacity: 1;
+    }
+    97%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes caret {
+    0%,
+    48% {
+      opacity: 1;
+    }
+    49%,
+    97% {
+      opacity: 0;
+      width: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+</style>

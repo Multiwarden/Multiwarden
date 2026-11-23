@@ -4,3 +4,4 @@ dist/
 # Copied in by scripts/sync-assets.mjs from ../logo and ./CNAME
 public/logo.png
 public/CNAME
+public/screenshots/

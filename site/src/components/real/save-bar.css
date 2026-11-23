@@ -1,0 +1,65 @@
+.mw-savebar .css-9ybxjh { display: flex; -webkit-box-pack: center; justify-content: center; width: 24px; height: 24px; }
+.mw-savebar .css-9ybxjh > svg { width: auto; height: 100%; }
+@-webkit-keyframes animation-1d82fxr { 
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(359deg); }
+}
+@keyframes animation-1d82fxr { 
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(359deg); }
+}
+.mw-savebar .css-ylegnv { animation: 2s linear 0s infinite normal none running animation-1d82fxr; }
+.mw-savebar .css-z8ebam > svg { width: fit-content; height: 12px; }
+.mw-savebar .css-1hefxcv { gap: 8px; display: flex; flex-wrap: nowrap; -webkit-box-align: center; align-items: center; -webkit-box-pack: start; justify-content: start; }
+.mw-savebar .css-1hefxcv > img,.mw-savebar .css-1hefxcv > span { display: flex; }
+.mw-savebar .css-1hefxcv > div { max-width: calc(100% - 32px); }
+.mw-savebar .css-pib5g2 { overflow-x: hidden; text-overflow: ellipsis; }
+.mw-savebar .css-1restt9 { gap: 16px; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: justify; justify-content: space-between; width: 100%; max-height: 52px; white-space: nowrap; padding-top: 4px; }
+.mw-savebar .css-1restt9 > button { max-width: min-content; flex: 1 1 25%; }
+.mw-savebar .css-1restt9 > div { flex: 1 1 min-content; }
+.mw-savebar .css-1q9tj5z { gap: 8px; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: end; justify-content: flex-end; overflow: hidden; }
+.mw-savebar .css-1q9tj5z > option-selection { max-width: calc(50% - 6px); min-width: 120px; }
+.mw-savebar .css-apgsvk { overflow-x: hidden; text-align: left; text-overflow: ellipsis; line-height: 24px; font-family: Inter, sans-serif; font-size: 16px; }
+.mw-savebar .css-1rz0a2p { display: flex; padding: 8px 16px 16px; }
+.mw-savebar .css-1rz0a2p:last-child { border-radius: 0px 0px 16px 16px; }
+.mw-savebar .css-4bfrdo { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.mw-savebar .css-2sjmqs { display: inline; white-space: normal; word-break: break-word; }
+.mw-savebar .css-d0e2v8 { position: absolute; right: 20px; border: 1px solid rgb(168, 179, 200); border-radius: 16px; box-shadow: rgba(0, 0, 0, 0.1) -2px 4px 6px 0px; background-color: rgb(243, 246, 249); width: 400px; }
+.mw-savebar .css-d0e2v8 [class*="notification-header-"] { border-radius: 16px 16px 0px 0px; }
+.mw-savebar .css-d0e2v8 [class*="notification-body-"] { margin: 12px 0px 0px 12px; padding-right: 12px; }
+.mw-savebar .css-1ql6jrl { fill: rgb(23, 93, 220); }
+.mw-savebar .css-1ytfkj4 { -webkit-box-flex: 1; flex-grow: 1; overflow-x: hidden; text-align: left; text-overflow: ellipsis; line-height: 28px; white-space: nowrap; color: rgb(27, 32, 41); font-family: Inter, sans-serif; font-size: 18px; font-weight: 500; }
+.mw-savebar .css-14lcsfo { border: 1px solid transparent; border-radius: 4px; background-color: transparent; cursor: pointer; width: 36px; height: 36px; }
+.mw-savebar .css-14lcsfo:hover { border: 1px solid rgb(23, 93, 220); }
+.mw-savebar .css-14lcsfo > svg { width: 20px; height: 20px; vertical-align: middle; }
+.mw-savebar .css-1y0b57u { fill: rgb(27, 32, 41); }
+.mw-savebar .css-pr02z { display: flex; padding: 8px 16px 16px; }
+.mw-savebar .css-pr02z:last-child { border-radius: 0px 0px 16px 16px; }
+.mw-savebar .css-9k1msi { line-height: 20px; font-family: Inter, sans-serif; font-size: 14px; user-select: none; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; border: 1px solid transparent; border-radius: 9999px; padding: 4px 12px; width: 100%; overflow: hidden; text-align: center; text-overflow: ellipsis; font-weight: 500; background-color: rgb(23, 93, 220); cursor: pointer; color: rgb(255, 255, 255); }
+.mw-savebar .css-9k1msi:hover { border-color: rgb(26, 65, 172); background-color: rgb(26, 65, 172); color: rgb(255, 255, 255); }
+.mw-savebar .css-9k1msi:focus { outline: rgb(23, 93, 220) solid 2px; outline-offset: 1px; }
+.mw-savebar .css-9k1msi svg { padding: 2px 0px; width: auto; height: 16px; }
+.mw-savebar .css-1xympa9 { line-height: 20px; font-family: Inter, sans-serif; font-size: 14px; gap: 6px; user-select: none; display: flex; flex-flow: row; -webkit-box-align: center; align-items: center; -webkit-box-pack: justify; justify-content: space-between; border-radius: 9999px; padding: 4px 8px; max-height: fit-content; overflow: hidden; text-align: center; text-overflow: ellipsis; font-weight: 400; border: 1px solid rgb(90, 109, 145); background-color: transparent; cursor: pointer; color: rgb(90, 109, 145); }
+.mw-savebar .css-1xympa9:hover { border-color: rgb(63, 75, 99); background-color: rgb(230, 233, 239); }
+.mw-savebar .css-1xympa9 > svg { max-width: 16px; max-height: 16px; height: auto; }
+.mw-savebar .css-mtm3rp { fill: rgb(90, 109, 145); }
+.mw-savebar .css-5ql0o { line-height: 20px; font-family: Inter, sans-serif; font-size: 14px; gap: 6px; user-select: none; display: flex; flex-flow: row; -webkit-box-align: center; align-items: center; -webkit-box-pack: justify; justify-content: space-between; border-radius: 9999px; padding: 4px 8px; max-height: fit-content; overflow: hidden; text-align: center; text-overflow: ellipsis; font-weight: 400; border: 1px solid rgb(90, 109, 145); background-color: rgb(230, 233, 239); cursor: pointer; color: rgb(90, 109, 145); }
+.mw-savebar .css-5ql0o:hover { border-color: rgb(63, 75, 99); background-color: rgb(230, 233, 239); }
+.mw-savebar .css-5ql0o > svg { max-width: 16px; max-height: 16px; height: auto; }
+.mw-savebar .option-item-165hioo { gap: 8px; user-select: none; display: flex; flex-flow: row; -webkit-box-align: center; align-items: center; -webkit-box-pack: start; justify-content: flex-start; cursor: pointer; }
+.mw-savebar .option-item-sq6xcp { display: flex; -webkit-box-flex: 1; flex-grow: 1; flex-shrink: 1; max-width: 16px; max-height: 16px; }
+.mw-savebar .option-item-sq6xcp > svg { width: 100%; height: auto; }
+.mw-savebar .option-item-z8frxj { flex: 1 1 calc(100% - 24px); overflow-x: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mw-savebar .notification-header-19sn493 { border-bottom: 0.5px solid rgb(168, 179, 200); }
+.mw-savebar .notification-header-p4690t { gap: 8px; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: start; justify-content: flex-start; background-color: rgb(255, 255, 255); padding: 12px 16px 8px; white-space: nowrap; border-bottom: 0.5px solid rgb(168, 179, 200); }
+.mw-savebar .notification-body-s0lsb8 { line-height: 24px; font-family: Inter, sans-serif; font-size: 16px; gap: 6px; display: flex; flex-flow: column; background-color: rgb(243, 246, 249); max-height: 123px; overflow: hidden auto; white-space: nowrap; color: rgb(27, 32, 41); font-weight: 400; scrollbar-color: rgb(90, 109, 145) rgb(243, 246, 249); }
+.mw-savebar .notification-body-s0lsb8:last-child { border-radius: 0px 0px 16px 16px; }
+.mw-savebar .option-selection-1ci9tqn { display: flex; -webkit-box-pack: start; justify-content: flex-start; }
+.mw-savebar .option-selection-1ci9tqn > div,.mw-savebar .option-selection-1ci9tqn > button { width: 100%; }
+.mw-savebar .option-selection-idkg2i { display: flex; -webkit-box-pack: end; justify-content: flex-end; }
+.mw-savebar .option-selection-idkg2i > div,.mw-savebar .option-selection-idkg2i > button { width: 100%; }
+.mw-savebar .option-items-13g4cmn { line-height: 24px; font-family: Inter, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; position: absolute; top: calc(110px); border: 1px solid rgb(90, 109, 145); border-radius: 0.5rem; background-clip: padding-box; background-color: rgb(255, 255, 255); padding: 0.25rem 0px; max-width: fit-content; overflow-y: hidden; color: rgb(27, 32, 41); }
+.mw-savebar .option-items-16pijp1 { line-height: 16px; font-family: Inter, sans-serif; font-size: 12px; user-select: none; padding: 0.375rem 12px; color: rgb(90, 109, 145); font-weight: 500; }
+.mw-savebar .option-items-1d22s3j { max-height: 114px; overflow-y: auto; scrollbar-color: rgb(90, 109, 145) transparent; }
+.mw-savebar .option-items-1d22s3j > [class*="option-item-"] { padding: 6px 12px; max-width: 260px; }
+.mw-savebar .option-items-1d22s3j > [class*="option-item-"]:hover { background-color: rgb(219, 229, 246); }
