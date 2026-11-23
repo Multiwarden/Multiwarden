@@ -1,0 +1,141 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/* Dark mode follows data-theme on <html>, set before paint from the saved choice or the system. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Multiwarden indigo, built around #5e5feb. */
+  --color-brand-50: #f0f0fe;
+  --color-brand-100: #e2e2fd;
+  --color-brand-200: #cacafb;
+  --color-brand-300: #a9a8f7;
+  --color-brand-400: #8a86f2;
+  --color-brand-500: #5e5feb;
+  --color-brand-600: #4c46dd;
+  --color-brand-700: #3f38c2;
+  --color-brand-800: #34309c;
+  --color-brand-900: #2e2d7b;
+  --color-brand-950: #1c1a48;
+
+  /* Account colours used in the product mock-ups. */
+  --color-acct-personal: #5e5feb;
+  --color-acct-work: #10b981;
+  --color-acct-family: #f59e0b;
+}
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth bg-white text-zinc-900 antialiased;
+    font-feature-settings: "cv11", "ss01", "ss03";
+    color-scheme: light;
+  }
+  html[data-theme="dark"] {
+    @apply bg-zinc-950 text-zinc-100;
+    color-scheme: dark;
+  }
+  ::selection {
+    @apply bg-brand-500/25;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
+
+/* Smooth cross-page transitions in browsers that support them; instant navigation elsewhere. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out-expo);
+}
+.vt-header {
+  view-transition-name: site-header;
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+@utility text-gradient {
+  @apply bg-gradient-to-r from-brand-500 via-violet-500 to-fuchsia-500 bg-clip-text text-transparent;
+}
+
+@utility card {
+  @apply rounded-2xl border border-zinc-200/80 bg-white/70 shadow-[0_1px_2px_rgb(0_0_0/0.04)] backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.03];
+}
+
+@utility eyebrow {
+  @apply text-sm font-semibold tracking-wide text-brand-600 dark:text-brand-400;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 ease-out active:scale-[0.98];
+}
+
+@utility btn-primary {
+  @apply bg-brand-500 text-white shadow-[0_8px_30px_-6px] shadow-brand-500/50 hover:bg-brand-600 hover:shadow-brand-500/60;
+}
+
+@utility btn-secondary {
+  @apply border border-zinc-300 bg-white/60 text-zinc-800 hover:border-zinc-400 hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-zinc-100 dark:hover:border-white/30 dark:hover:bg-white/10;
+}
+
+@utility pill {
+  @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium;
+}
+
+/* Elements marked [data-reveal] fade up as they scroll into view, where scroll timelines exist. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Release notes come from GitHub as Markdown. */
+.prose-notes {
+  @apply text-sm leading-relaxed text-zinc-600 dark:text-zinc-400;
+}
+.prose-notes :where(h1, h2, h3, h4) {
+  @apply mt-5 mb-2 text-sm font-semibold text-zinc-900 dark:text-zinc-100;
+}
+.prose-notes :where(p, ul, ol) {
+  @apply my-2;
+}
+.prose-notes :where(ul) {
+  @apply list-disc pl-5;
+}
+.prose-notes :where(ol) {
+  @apply list-decimal pl-5;
+}
+.prose-notes :where(a) {
+  @apply text-brand-600 underline decoration-brand-500/30 underline-offset-2 hover:decoration-brand-500 dark:text-brand-400;
+}
+.prose-notes :where(code) {
+  @apply rounded bg-zinc-100 px-1 py-0.5 text-[0.8em] dark:bg-white/10;
+}
+.prose-notes :where(li) {
+  overflow-wrap: anywhere;
+}

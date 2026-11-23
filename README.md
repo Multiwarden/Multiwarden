@@ -30,12 +30,12 @@ repositories.
 
 ## In this repository
 
-| Path                          | Contents                                                                                             |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `site/`                       | The website at multiwarden.mteij.nl (mu.css, indigo theme). Lists releases live from the GitHub API. |
-| `logo/`                       | The logo (512 px) and the 128 px store icon.                                                         |
-| `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                                  |
-| `.github/workflows/pages.yml` | Deploys `site/` to GitHub Pages on every change to `main`.                                           |
+| Path                          | Contents                                                                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| `site/`                       | The website, an Astro + Tailwind CSS project. Lists every platform's releases from GitHub. |
+| `logo/`                       | The logo (512 px) and the 128 px store icon.                                               |
+| `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                        |
+| `.github/workflows/pages.yml` | Builds `site/` and deploys it to GitHub Pages; also rebuilds when releases change.         |
 
 The extension's own icons are built from `multiwarden/branding/` in
 [multiwarden/clients](https://github.com/multiwarden/clients); the files in `logo/` are copies for
@@ -44,12 +44,31 @@ the website and store listings. When the logo changes there, copy `logo512.png` 
 
 ## Website
 
-The site is a single static page, `site/index.html`. Open it in a browser to preview it; the
-release list loads from the GitHub API either way.
+The site is a static [Astro](https://astro.build) project in `site/`, styled with Tailwind CSS.
+It has a homepage, a download page per platform, a combined release timeline and the privacy
+policy.
 
-Publishing needs GitHub Pages set to **GitHub Actions** (Settings → Pages → Source) and the
-custom domain `multiwarden.mteij.nl` entered there. `site/CNAME` keeps the domain in the
-deployed site.
+```sh
+cd site
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # writes site/dist
+```
+
+Releases are fetched from the GitHub API when the site is built, so visitors never call the API
+themselves. Set `GITHUB_TOKEN` when building locally to avoid GitHub's anonymous rate limit. The
+Pages workflow rebuilds the site on every change, and checks every hour whether any release was
+added or changed. An app repository can also update the site straight away by sending a
+`repository_dispatch` event of type `release` to this repository.
+
+Platforms, their repositories, download files and store links are configured in
+`site/src/data/platforms.ts`. When a platform publishes its first GitHub release, it switches
+from "coming soon" to available everywhere on the site. Add store links to its `stores` list once
+a listing is live.
+
+`site/CNAME` holds the custom domain; it is copied into the build together with
+`logo/logo512.png`. Publishing needs GitHub Pages set to **GitHub Actions** (Settings → Pages →
+Source) and the same domain entered there.
 
 ## License and trademarks
 

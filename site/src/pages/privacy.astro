@@ -1,0 +1,78 @@
+---
+// The browser extension's privacy policy, as linked from the store listings.
+// Source text: multiwarden/store/privacy-policy.md in multiwarden/clients. Keep the two in step.
+import Base from "../layouts/Base.astro";
+import { github } from "../data/platforms";
+---
+
+<Base title="Privacy policy" description="What the Multiwarden browser extension does and doesn’t do with your data.">
+  <article class="container-page max-w-3xl py-16 sm:py-24">
+    <p class="eyebrow">Legal</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Privacy policy</h1>
+    <p class="mt-3 text-sm text-zinc-500">Last updated: 22 November 2026</p>
+
+    <div class="policy mt-10 space-y-5 leading-relaxed text-zinc-700 dark:text-zinc-300">
+      <p>
+        Multiwarden is a browser extension that works as a client for your Bitwarden accounts. It is an unofficial
+        fork of the open-source Bitwarden browser extension and is not affiliated with Bitwarden, Inc.
+      </p>
+
+      <h2>What Multiwarden handles</h2>
+      <ul>
+        <li>
+          <strong>Your vault data</strong> (logins, passkeys, cards, identities, notes). It is downloaded from, and
+          saved to, the Bitwarden server you sign in to, end-to-end encrypted, exactly as in the upstream Bitwarden
+          extension. Multiwarden decrypts it locally in your browser to autofill and save credentials.
+        </li>
+        <li>
+          <strong>Account details</strong> (email address, server URL) for each account you sign in to, stored in
+          the browser’s extension storage.
+        </li>
+        <li>
+          <strong>Which account you last saved to for a site.</strong> Multiwarden keeps this locally to pre-select
+          the account in its save prompt. Sites are stored as one-way SHA-256 hashes, not as readable addresses.
+        </li>
+      </ul>
+
+      <h2>What Multiwarden does not do</h2>
+      <ul>
+        <li>
+          It does not send your data to the Multiwarden developers or to any third party. The only servers it talks
+          to are the Bitwarden servers you choose (bitwarden.com, bitwarden.eu or your own self-hosted server), plus
+          the icon service those servers provide if website icons are turned on.
+        </li>
+        <li>It contains no analytics, advertising or tracking code of its own.</li>
+        <li>It does not sell or share data.</li>
+      </ul>
+
+      <h2>Data from Bitwarden’s services</h2>
+      <p>
+        When you use a Bitwarden-hosted server, Bitwarden, Inc. processes your account under its own privacy policy:
+        <a href="https://bitwarden.com/privacy/">bitwarden.com/privacy</a>.
+      </p>
+
+      <h2>Removing your data</h2>
+      <p>
+        Signing out of an account removes its local data. Uninstalling the extension removes all locally stored
+        data. Data held on a Bitwarden server is managed through that server.
+      </p>
+
+      <h2>Contact</h2>
+      <p>Open an issue at <a href={github.issues}>github.com/multiwarden/clients/issues</a>.</p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  @reference "../styles/global.css";
+
+  .policy h2 {
+    @apply pt-6 text-xl font-semibold tracking-tight text-zinc-900 dark:text-white;
+  }
+  .policy ul {
+    @apply list-disc space-y-2 pl-5 marker:text-brand-500;
+  }
+  .policy a {
+    @apply text-brand-600 underline decoration-brand-500/30 underline-offset-2 hover:decoration-brand-500 dark:text-brand-400;
+  }
+</style>

@@ -1,6 +1,11 @@
-# Publishes the website (site/) to GitHub Pages at multiwarden.mteij.nl.
-# Releases are read live from the GitHub API of multiwarden/clients, so the site doesn't need
-# rebuilding per release.
+# Builds the website (site/, an Astro project) and publishes it to GitHub Pages.
+#
+# Releases are read from the GitHub API at build time, so the site is rebuilt:
+# - on every change to the site on main,
+# - every hour, deploying only when the release list changed since the last deploy,
+# - on a `repository_dispatch` of type `release`, which the app repositories can send after
+#   publishing a release to update the site straight away,
+# - by hand from the Actions tab.
 name: Pages
 
 on:
@@ -10,6 +15,10 @@ on:
       - "site/**"
       - "logo/logo512.png"
       - ".github/workflows/pages.yml"
+  schedule:
+    - cron: "17 * * * *"
+  repository_dispatch:
+    types: [release]
   workflow_dispatch:
 
 permissions:
@@ -19,26 +28,63 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.compare.outputs.changed }}
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run build
+
+      # Scheduled runs only deploy when a release was added, changed or removed.
+      - name: Compare releases with the live site
+        id: compare
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          domain="$(cat CNAME)"
+          if curl -fsSL "https://$domain/releases.json" -o /tmp/live.json && cmp -s /tmp/live.json dist/releases.json; then
+            echo "Releases unchanged; skipping deploy."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/configure-pages@v5
+        if: steps.compare.outputs.changed == 'true'
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.compare.outputs.changed == 'true'
+        with:
+          path: site/dist
+
   deploy:
+    needs: build
+    if: needs.build.outputs.changed == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Assemble site
-        run: |
-          mkdir -p _site
-          cp -r site/. _site/
-          cp logo/logo512.png _site/logo.png
-
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
