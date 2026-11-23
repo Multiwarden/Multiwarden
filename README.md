@@ -74,7 +74,14 @@ Source) and the same domain entered there.
 
 ## License and trademarks
 
-Multiwarden is licensed under the GNU GPL v3, like the Bitwarden code it is based on.
+Multiwarden is licensed under the GNU GPL v3, like the Bitwarden code it is based on. The GPL
+covers the code; under its section 7(e) it does not grant rights to use the Multiwarden name or
+logo to identify other or modified versions.
+
+Contributions, security reports and support questions follow the organization's
+[contributing guide](https://github.com/multiwarden/.github/blob/main/CONTRIBUTING.md),
+[security policy](https://github.com/multiwarden/.github/blob/main/SECURITY.md) and
+[code of conduct](https://github.com/multiwarden/.github/blob/main/CODE_OF_CONDUCT.md).
 
 Multiwarden is **not affiliated with, endorsed by, or supported by Bitwarden, Inc.** "Bitwarden"
 is a registered trademark of Bitwarden Inc., used here only to describe compatibility.
