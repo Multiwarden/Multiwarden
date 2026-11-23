@@ -23,3 +23,9 @@ running.
 ### Browser extension
 
 `apps/browser/src/multiwarden/multiwarden-settings.ts` and `popup/multiwarden-settings.component.*`.
+
+### Desktop
+
+A **Multiwarden** tab in Settings with Hide Premium notices and the About section
+([clients#25](https://github.com/multiwarden/clients/pull/25)). Save-account and page-load
+options don't apply to the desktop app.

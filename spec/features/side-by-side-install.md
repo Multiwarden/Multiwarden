@@ -24,3 +24,11 @@ Branding is applied to the built extension by `multiwarden/scripts/brand-build.m
 ### Android
 
 Application ID `com.multiwarden.android`, F-Droid flavor only, set in `multiwarden/multiwarden.gradle`.
+
+### Desktop
+
+App ID `com.multiwarden.desktop`, name "Multiwarden", own data folder. Its own native messaging
+host (`com.multiwarden.desktop`), IPC and SSH agent sockets, biometric key entries and autostart
+entry, so it runs next to Bitwarden's desktop app. `bitwarden://` links are only taken when
+Bitwarden doesn't handle them. No self-update. Branding by `multiwarden/scripts/brand-desktop.mjs`.
+On Windows only one app can serve the SSH agent pipe.

@@ -18,3 +18,7 @@ An option to hide Bitwarden's Premium upgrade badges, banners and spotlights.
 
 Hides `app-premium-badge`, `billing-premium-upgrade-nudge` and anything marked
 `data-multiwarden-premium` (`popup/multiwarden-popup-settings.ts`).
+
+### Desktop
+
+Same CSS as the extension, shared in `libs/angular/src/multiwarden/multiwarden-premium-notices.ts`.
