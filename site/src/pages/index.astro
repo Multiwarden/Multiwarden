@@ -288,8 +288,9 @@ const faq = [
   .stage {
     @apply relative flex justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-brand-500/15 via-violet-500/10 to-fuchsia-400/10 px-6 pt-10 sm:px-10;
   }
+  /* Up to the popup's real width (480 px), so the account avatars stay legible. */
   .popup {
-    @apply w-full max-w-[22rem] rounded-t-2xl shadow-2xl ring-1 shadow-brand-950/20 ring-black/5;
+    @apply h-auto w-full max-w-[30rem] self-start rounded-t-2xl shadow-2xl ring-1 shadow-brand-950/20 ring-black/5;
   }
 
   @media (prefers-reduced-motion: no-preference) {

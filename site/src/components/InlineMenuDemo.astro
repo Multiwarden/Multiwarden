@@ -1,10 +1,9 @@
 ---
 // The extension's inline autofill menu on a sign-in page, offering one login from each of two
-// unlocked accounts. Sizes, colours and icons follow the extension's own inline menu
+// unlocked accounts. The site icon is a made-up favicon for the made-up Acme Cloud. Sizes, colours and icons follow the extension's own inline menu
 // (apps/browser/src/autofill/overlay/inline-menu in multiwarden/clients, light theme); the
 // account label after "·" is what Multiwarden adds when several accounts are unlocked.
 // Pure HTML and CSS: the menu opens, the second login is picked, and the form is filled, on a loop.
-import { globePath } from "./real/globe-path";
 
 const items = [
   { name: "Acme Cloud · sam.devries@gmail.com", username: "samdevries" },
@@ -48,8 +47,12 @@ const items = [
                 <li class:list={["item", i === 1 && "item--picked"]}>
                   <div class="cipher">
                     <span class="cipher-icon">
-                      <svg viewBox="0 0 1024 1024">
-                        <path transform="matrix(1 0 0 -1 0 896)" d={globePath} />
+                      <svg viewBox="0 0 32 32" class="favicon">
+                        <rect width="32" height="32" rx="7" fill="#0ea5e9" />
+                        <path
+                          d="M10.5 22a4.5 4.5 0 0 1-.6-8.96 6.5 6.5 0 0 1 12.3 1.5A3.75 3.75 0 0 1 21.75 22H10.5Z"
+                          fill="#fff"
+                        />
                       </svg>
                     </span>
                     <span class="cipher-details">
@@ -203,10 +206,10 @@ const items = [
     height: 32px;
     margin-right: 10px;
   }
+  /* The site's favicon, shown at 26px like the extension's background-size: 2.6rem. */
   .cipher-icon svg {
     width: 26px;
     height: 26px;
-    fill: #175ddc;
   }
   .cipher-details {
     display: block;
