@@ -91,7 +91,7 @@ const sections = platforms.map((p) => {
                     >
                       <Download class="size-4" />
                       <span data-primary-label>
-                        {p.downloads.length > 1 ? `Download for ${p.primary.label}` : `Download ${p.primary.label}`}
+                        {p.primary.button}
                       </span>
                     </a>
                   )}
@@ -123,7 +123,7 @@ const sections = platforms.map((p) => {
                           <a
                             href={d.url}
                             data-variant={d.variantId}
-                            data-label={d.label}
+                            data-button={d.button}
                             class="group/dl flex items-center justify-between gap-4 rounded-lg px-2 py-2.5 transition hover:bg-zinc-100 sm:px-2.5 dark:hover:bg-white/5"
                           >
                             <span class="min-w-0">
@@ -194,7 +194,7 @@ const sections = platforms.map((p) => {
     const primary = section.querySelector<HTMLAnchorElement>("[data-primary]");
     if (link && primary) {
       primary.href = link.href;
-      primary.querySelector("[data-primary-label]")!.textContent = `Download for ${link.dataset.label}`;
+      primary.querySelector("[data-primary-label]")!.textContent = link.dataset.button ?? "";
     }
     // Hide stores that don't serve this variant (the Chrome Web Store for Firefox), and make the
     // direct download the main button instead.
