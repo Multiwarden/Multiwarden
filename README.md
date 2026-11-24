@@ -39,6 +39,7 @@ repositories.
 | `screenshots/`                | Screenshots of the apps, for the website and README.                                         |
 | `store/screenshots/`          | Screenshots for the browser stores and Google Play.                                          |
 | `.github/workflows/pages.yml` | Builds `site/` and deploys it to GitHub Pages; also rebuilds when releases change.           |
+| `fdroid/`                    | The Multiwarden F-Droid repository, published at `/fdroid/repo` with the site.               |
 | `spec/`                       | The feature spec every platform builds from, and the [feature parity table](spec/parity.md). |
 
 The extension's own icons are built from `multiwarden/branding/` in
@@ -75,6 +76,26 @@ when it has desktop installers.
 `site/CNAME` holds the custom domain; it is copied into the build together with
 `logo/logo512.png`. Publishing needs GitHub Pages set to **GitHub Actions** (Settings → Pages →
 Source) and the same domain entered there.
+
+## F-Droid repository
+
+`https://multiwarden.com/fdroid/repo` is an F-Droid repository with the latest Android release,
+for people who use F-Droid, Droid-ify or Neo Store. The Pages workflow builds it with
+[fdroidserver](https://gitlab.com/fdroid/fdroidserver) every time it deploys the site
+(`fdroid/build.sh`): it downloads the APKs of the latest
+[multiwarden/android](https://github.com/multiwarden/android/releases) release, takes the
+listing text and icon from that repository's `fastlane/metadata/android/`, and signs the index.
+
+Add-repository link (also shown as a QR code on `https://multiwarden.com/fdroid/repo/`):
+
+```
+https://multiwarden.com/fdroid/repo?fingerprint=6C008E322F4F321EB41A3FB7A55AB357F4898E3B1E2F0A51E9B6505D8D24241A
+```
+
+The index is signed with the repository key from the `FDROID_KEYSTORE_BASE64` (base64-encoded
+PKCS12 keystore, alias `multiwarden-fdroid`) and `FDROID_KEYSTORE_PASSWORD` secrets. Without
+them the site deploys without the repository. The fingerprint above belongs to that key: keep
+the keystore backed up, because a new key means everyone has to add the repository again.
 
 ## License and trademarks
 

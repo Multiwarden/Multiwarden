@@ -1,0 +1,11 @@
+# Listing details for Multiwarden. The title, descriptions and icon come from
+# fastlane/metadata/android/ in multiwarden/android, which build.sh copies next to this file.
+Categories:
+  - Security
+License: GPL-3.0-only
+AuthorName: Multiwarden
+WebSite: https://multiwarden.com
+SourceCode: https://github.com/multiwarden/android
+IssueTracker: https://github.com/multiwarden/android/issues
+Changelog: https://github.com/multiwarden/android/releases
+AutoName: Multiwarden

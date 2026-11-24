@@ -1,0 +1,14 @@
+# fdroidserver configuration for the Multiwarden F-Droid repository, published at
+# https://multiwarden.com/fdroid/repo by .github/workflows/pages.yml (see fdroid/build.sh).
+# The signing settings (keystore, keystorepass, keypass) are added by build.sh from secrets.
+repo_url: https://multiwarden.com/fdroid/repo
+repo_name: Multiwarden
+repo_description: >-
+  Multiwarden for Android, signed by the Multiwarden developers and taken from the releases at
+  https://github.com/multiwarden/android. Add this repository to F-Droid, Droid-ify or Neo Store
+  to install Multiwarden and get its updates.
+repo_icon: repo-icon.png
+repo_keyalias: multiwarden-fdroid
+keydname: CN=Multiwarden F-Droid repository
+# build.sh only downloads the latest release, so nothing is archived. (0 would archive every APK.)
+archive_older: 3
