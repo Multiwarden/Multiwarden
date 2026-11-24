@@ -23,3 +23,13 @@ export function detectBrowser(): Detected | undefined {
   if (/Safari\//.test(ua)) return { platform: "browser", variant: "safari", label: "Safari" };
   return undefined;
 }
+
+/** The visitor's desktop operating system, to suggest the right desktop app. */
+export function detectOS(): "windows" | "macos" | "linux" | undefined {
+  const ua = navigator.userAgent;
+  if (/Android|iPhone|iPad|iPod/i.test(ua)) return undefined;
+  if (/Windows/i.test(ua)) return "windows";
+  if (/Macintosh|Mac OS X/i.test(ua)) return "macos";
+  if (/Linux|X11|CrOS/i.test(ua)) return "linux";
+  return undefined;
+}

@@ -5,13 +5,21 @@ import StatusPill from "../components/StatusPill.astro";
 import GitHubMark from "../components/GitHubMark.astro";
 import Download from "@lucide/astro/icons/download";
 import ArrowUpRight from "@lucide/astro/icons/arrow-up-right";
+import ChevronDown from "@lucide/astro/icons/chevron-down";
 import { platforms, github } from "../data/platforms";
 import { getReleases, latestFor, formatDate, formatSize } from "../lib/releases";
 
 const releases = await getReleases();
 const sections = platforms.map((p) => {
   const release = latestFor(releases, p.id);
-  return { ...p, release, state: release ? ("available" as const) : p.status };
+  const downloads = release?.downloads ?? [];
+  // The download suggested before the visitor's browser or OS is known: the first one listed.
+  // A script below swaps in the one that matches the visitor.
+  const primary = downloads[0];
+  const os = Object.fromEntries(
+    p.variants.filter((v) => v.os && downloads.some((d) => d.variantId === v.id)).map((v) => [v.os, v.id]),
+  );
+  return { ...p, release, downloads, primary, os, state: release ? ("available" as const) : p.status };
 });
 ---
 
@@ -30,135 +38,198 @@ const sections = platforms.map((p) => {
     </div>
   </section>
 
-  <!-- Platform switcher -->
-  <nav
-    class="sticky top-16 z-30 border-y border-zinc-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/80"
-    aria-label="Platforms"
-  >
-    <ul class="container-page flex gap-1 overflow-x-auto py-2 text-sm">
+  <div class="container-page max-w-4xl pb-16">
+    <div class="flex flex-col gap-4" data-platforms>
       {
         sections.map((p) => (
-          <li>
-            <a
-              href={`#${p.id}`}
-              class="flex items-center gap-2 rounded-full px-3.5 py-1.5 whitespace-nowrap text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-white"
-            >
-              <PlatformIcon id={p.id} class="size-4" />
-              {p.name}
-              {p.state !== "available" && <span class="text-xs text-zinc-400">· {p.state === "soon" ? "soon" : "planned"}</span>}
-            </a>
-          </li>
+          <section
+            id={p.id}
+            class="card scroll-mt-24 overflow-hidden data-[detected]:border-brand-500/50 data-[detected]:ring-4 data-[detected]:ring-brand-500/10"
+            data-platform={p.id}
+            data-os={JSON.stringify(p.os)}
+          >
+            <div class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+              <div class="flex items-center gap-4">
+                <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/25">
+                  <PlatformIcon id={p.id} class="size-5" />
+                </span>
+                <div class="min-w-0">
+                  <h2 class="flex flex-wrap items-center gap-2 text-xl font-semibold tracking-tight">
+                    {p.name}
+                    <span class="pill hidden bg-brand-500 text-white" data-detected-pill>
+                      For this device
+                    </span>
+                    {p.state !== "available" && <StatusPill status={p.state} />}
+                  </h2>
+                  <p class="text-sm text-zinc-500 dark:text-zinc-400">{p.blurb}</p>
+                  {p.release && (
+                    <a
+                      href={p.release.url}
+                      class="mt-0.5 block text-xs text-zinc-400 hover:text-zinc-950 dark:text-zinc-500 dark:hover:text-white"
+                    >
+                      Version {p.release.version} · {formatDate(p.release.date)}
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {p.release ? (
+                <div class="flex flex-wrap items-center gap-3 sm:shrink-0 sm:justify-end">
+                  {p.stores.map((s) =>
+                    s.badge ? (
+                      <a
+                        href={s.url}
+                        class="rounded-lg transition hover:-translate-y-0.5"
+                        data-store-for={s.for?.join(" ")}
+                      >
+                        <img src={s.badge} alt={s.label} width="161" height="48" class="h-11 w-auto" />
+                      </a>
+                    ) : (
+                      <a href={s.url} class="btn btn-primary" data-store-for={s.for?.join(" ")}>
+                        {s.label} <ArrowUpRight class="size-4" />
+                      </a>
+                    ),
+                  )}
+                  {p.primary && (
+                    <a
+                      href={p.primary.url}
+                      class:list={["btn", p.stores.length > 0 ? "btn-secondary" : "btn-primary"]}
+                      data-primary
+                    >
+                      <Download class="size-4" />
+                      <span data-primary-label>
+                        {p.downloads.length > 1 ? `Download for ${p.primary.label}` : `Download ${p.primary.label}`}
+                      </span>
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <a
+                  href={p.repo ? `https://github.com/${p.repo}` : github.org}
+                  class="btn btn-secondary self-start sm:shrink-0 sm:self-auto"
+                >
+                  <GitHubMark class="size-4" /> Follow on GitHub
+                </a>
+              )}
+            </div>
+
+            {p.release && (p.downloads.length > 1 || p.install) && (
+              <div class="divide-y divide-zinc-200/80 border-t border-zinc-200/80 text-sm dark:divide-white/10 dark:border-white/10">
+                {p.downloads.length > 1 && (
+                  <details class="group">
+                    <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-3.5 font-medium text-zinc-600 transition select-none hover:bg-zinc-50 hover:text-zinc-950 sm:px-7 dark:text-zinc-400 dark:hover:bg-white/[0.03] dark:hover:text-white [&::-webkit-details-marker]:hidden">
+                      All downloads
+                      <span class="flex items-center gap-2 text-xs text-zinc-400">
+                        {p.downloads.length} files
+                        <ChevronDown class="size-4 transition group-open:rotate-180" />
+                      </span>
+                    </summary>
+                    <ul class="px-3 pb-3 sm:px-5">
+                      {p.downloads.map((d) => (
+                        <li>
+                          <a
+                            href={d.url}
+                            data-variant={d.variantId}
+                            data-label={d.label}
+                            class="group/dl flex items-center justify-between gap-4 rounded-lg px-2 py-2.5 transition hover:bg-zinc-100 sm:px-2.5 dark:hover:bg-white/5"
+                          >
+                            <span class="min-w-0">
+                              <span class="font-medium text-zinc-900 dark:text-zinc-100">{d.label}</span>
+                              {d.note && <span class="text-zinc-500"> · {d.note}</span>}
+                            </span>
+                            <span class="flex shrink-0 items-center gap-3 text-xs text-zinc-500">
+                              {formatSize(d.size)}
+                              <Download class="size-4 text-zinc-400 transition group-hover/dl:text-brand-500" />
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+                {p.install && (
+                  <details class="group">
+                    <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-3.5 font-medium text-zinc-600 transition select-none hover:bg-zinc-50 hover:text-zinc-950 sm:px-7 dark:text-zinc-400 dark:hover:bg-white/[0.03] dark:hover:text-white [&::-webkit-details-marker]:hidden">
+                      {p.installTitle ?? "How to install"}
+                      <ChevronDown class="size-4 text-zinc-400 transition group-open:rotate-180" />
+                    </summary>
+                    <ol class="space-y-3 px-5 pb-5 sm:px-7">
+                      {p.install.map((step, i) => (
+                        <li class="flex gap-3 leading-relaxed text-zinc-600 dark:text-zinc-400">
+                          <span class="grid size-6 shrink-0 place-items-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-900 dark:bg-white/10 dark:text-white">
+                            {i + 1}
+                          </span>
+                          <span set:html={step} />
+                        </li>
+                      ))}
+                    </ol>
+                  </details>
+                )}
+              </div>
+            )}
+
+            {!p.release && (
+              <p class="border-t border-zinc-200/80 px-5 py-4 text-sm text-zinc-500 sm:px-7 dark:border-white/10 dark:text-zinc-400">
+                {p.state === "soon"
+                  ? `In development. The first release will appear here as soon as it’s published.`
+                  : `On the roadmap. ${p.roadmap ?? ""}`}
+              </p>
+            )}
+          </section>
         ))
       }
-    </ul>
-  </nav>
+    </div>
 
-  <div class="container-page space-y-6 py-12">
-    {
-      sections.map((p) => (
-        <section id={p.id} class="card scroll-mt-36 p-6 sm:p-10" data-reveal>
-          <div class="flex flex-wrap items-start justify-between gap-4">
-            <div class="flex items-center gap-4">
-              <span class="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/25">
-                <PlatformIcon id={p.id} class="size-6" />
-              </span>
-              <div>
-                <h2 class="text-2xl font-semibold tracking-tight">{p.name}</h2>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">{p.blurb}</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-3 text-sm">
-              {p.release && (
-                <a href={p.release.url} class="text-zinc-500 hover:text-zinc-950 dark:hover:text-white">
-                  {p.release.version} · {formatDate(p.release.date)}
-                </a>
-              )}
-              <StatusPill status={p.state} />
-            </div>
-          </div>
-
-          {p.stores.length > 0 && (
-            <div class="mt-8 flex flex-wrap gap-3">
-              {p.stores.map((s) =>
-                s.badge ? (
-                  <a href={s.url} class="rounded-lg transition hover:-translate-y-0.5">
-                    <img src={s.badge} alt={s.label} width="161" height="48" class="h-12 w-auto" />
-                  </a>
-                ) : (
-                  <a href={s.url} class="btn btn-primary">
-                    {s.label} <ArrowUpRight class="size-4" />
-                  </a>
-                ),
-              )}
-            </div>
-          )}
-
-          {p.release && p.release.downloads.length > 0 && (
-            <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {p.release.downloads.map((d) => (
-                <a
-                  href={d.url}
-                  data-variant={d.variantId}
-                  class="group relative flex items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-brand-500/40 hover:shadow-lg hover:shadow-brand-500/5 data-[recommended]:border-brand-500 data-[recommended]:ring-4 data-[recommended]:ring-brand-500/10 dark:border-white/10 dark:bg-white/[0.03]"
-                >
-                  <span>
-                    <span class="flex items-center gap-2 font-semibold">
-                      {d.label}
-                      <span class="pill hidden bg-brand-500 text-white group-data-[recommended]:inline-flex">Your browser</span>
-                    </span>
-                    <span class="mt-0.5 block text-xs text-zinc-500">
-                      {d.note ? `${d.note} · ` : ""}
-                      {formatSize(d.size)}
-                    </span>
-                  </span>
-                  <span class="grid size-9 shrink-0 place-items-center rounded-full bg-zinc-100 text-zinc-600 transition group-hover:bg-brand-500 group-hover:text-white dark:bg-white/10 dark:text-zinc-300">
-                    <Download class="size-4" />
-                  </span>
-                </a>
-              ))}
-            </div>
-          )}
-
-          {p.release && p.install && (
-            <ol class="mt-8 grid gap-4 border-t border-zinc-200 pt-8 sm:grid-cols-3 dark:border-white/10">
-              {p.install.map((step, i) => (
-                <li class="flex gap-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                  <span class="grid size-6 shrink-0 place-items-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-900 dark:bg-white/10 dark:text-white">
-                    {i + 1}
-                  </span>
-                  <span set:html={step} />
-                </li>
-              ))}
-            </ol>
-          )}
-
-          {!p.release && (
-            <div class="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-dashed border-zinc-300 p-5 text-sm text-zinc-600 dark:border-white/15 dark:text-zinc-400">
-              <p>
-                {p.state === "soon"
-                  ? `Multiwarden for ${p.name} is in development. The first release will appear here as soon as it’s published.`
-                  : `Multiwarden for ${p.name} is on the roadmap. ${p.roadmap ?? ""}`}
-              </p>
-              <a href={p.repo ? `https://github.com/${p.repo}` : github.org} class="btn btn-secondary">
-                <GitHubMark class="size-4" /> Follow on GitHub
-              </a>
-            </div>
-          )}
-        </section>
-      ))
-    }
-
-    <p class="pt-4 text-center text-sm text-zinc-500">
+    <p class="pt-8 text-center text-sm text-zinc-500">
       Looking for an older version? See <a class="text-brand-600 underline underline-offset-2 dark:text-brand-400" href="/releases/">all releases</a>.
     </p>
   </div>
 </Base>
 
 <script>
-  // Highlight the build for the visitor's browser.
-  import { detectBrowser } from "../lib/detect";
+  // Suggest the right build for the visitor: their browser's extension package, their OS's
+  // desktop app, and their phone's platform first.
+  import { detectBrowser, detectOS } from "../lib/detect";
+
   const detected = detectBrowser();
-  if (detected?.variant) {
-    document.querySelector(`#browser [data-variant="${detected.variant}"]`)?.setAttribute("data-recommended", "");
+  const os = detectOS();
+
+  function suggest(platform: string, variant: string | undefined) {
+    const section = document.querySelector<HTMLElement>(`[data-platform="${platform}"]`);
+    if (!section || !variant) return;
+    const link = section.querySelector<HTMLAnchorElement>(`[data-variant="${variant}"]`);
+    const primary = section.querySelector<HTMLAnchorElement>("[data-primary]");
+    if (link && primary) {
+      primary.href = link.href;
+      primary.querySelector("[data-primary-label]")!.textContent = `Download for ${link.dataset.label}`;
+    }
+    // Hide stores that don't serve this variant (the Chrome Web Store for Firefox), and make the
+    // direct download the main button instead.
+    const stores = section.querySelectorAll<HTMLElement>("[data-store-for]");
+    let shown = 0;
+    for (const store of stores) {
+      const serves = store.dataset.storeFor!.split(" ").includes(variant);
+      store.hidden = !serves;
+      if (serves) shown++;
+    }
+    if (stores.length > 0 && shown === 0 && primary) {
+      primary.classList.replace("btn-secondary", "btn-primary");
+    }
+  }
+
+  if (detected?.platform === "browser") suggest("browser", detected.variant);
+  if (os) {
+    const byOs = JSON.parse(document.querySelector<HTMLElement>('[data-platform="desktop"]')?.dataset.os ?? "{}");
+    suggest("desktop", byOs[os]);
+  }
+
+  // On a phone, show its platform first.
+  if (detected && detected.platform !== "browser") {
+    const section = document.querySelector<HTMLElement>(`[data-platform="${detected.platform}"]`);
+    if (section) {
+      section.style.order = "-1";
+      section.setAttribute("data-detected", "");
+      section.querySelector<HTMLElement>("[data-detected-pill]")?.classList.replace("hidden", "inline-flex");
+    }
   }
 </script>
