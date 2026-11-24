@@ -79,11 +79,17 @@ const sections = platforms.map((p) => {
 
           {p.stores.length > 0 && (
             <div class="mt-8 flex flex-wrap gap-3">
-              {p.stores.map((s) => (
-                <a href={s.url} class="btn btn-primary">
-                  {s.label} <ArrowUpRight class="size-4" />
-                </a>
-              ))}
+              {p.stores.map((s) =>
+                s.badge ? (
+                  <a href={s.url} class="rounded-lg transition hover:-translate-y-0.5">
+                    <img src={s.badge} alt={s.label} width="161" height="48" class="h-12 w-auto" />
+                  </a>
+                ) : (
+                  <a href={s.url} class="btn btn-primary">
+                    {s.label} <ArrowUpRight class="size-4" />
+                  </a>
+                ),
+              )}
             </div>
           )}
 
