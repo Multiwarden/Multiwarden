@@ -5,6 +5,7 @@ import SaveBarDemo from "../components/SaveBarDemo.astro";
 import PlatformIcon from "../components/PlatformIcon.astro";
 import StatusPill from "../components/StatusPill.astro";
 import GitHubMark from "../components/GitHubMark.astro";
+import StoreIcon from "../components/StoreIcon.astro";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import Check from "@lucide/astro/icons/check";
 import ArrowUpRight from "@lucide/astro/icons/arrow-up-right";
@@ -97,6 +98,7 @@ const faq = [
           {
             chromeStore && (
               <a href={chromeStore.url} class="btn btn-secondary !px-6 !py-3 text-base" data-store-cta>
+                <StoreIcon id="chrome" class="size-4" />
                 Chrome Web Store
                 <ArrowUpRight class="size-4" />
               </a>
@@ -341,6 +343,8 @@ const faq = [
     // Chrome, Brave and Vivaldi install from the Chrome Web Store.
     cta.querySelector("span")!.textContent = `Add to ${detected.label}`;
     cta.href = store.href;
+    const logo = store.querySelector("svg");
+    if (logo) cta.prepend(logo);
     store.remove();
   } else if (cta && detected && available.includes(detected.platform)) {
     cta.querySelector("span")!.textContent = `Download for ${detected.label}`;

@@ -24,8 +24,8 @@ export interface Variant {
 export interface Store {
   label: string;
   url: string;
-  /** Official badge image in `site/public/`, shown instead of a text button. */
-  badge?: string;
+  /** Store logo shown on the button. */
+  icon?: "chrome" | "obtainium";
   /**
    * Variants this store serves, e.g. only Chromium browsers for the Chrome Web Store. When the
    * visitor's browser is detected and not listed, the store is hidden in favour of the direct
@@ -102,6 +102,7 @@ export const platforms: Platform[] = [
     stores: [
       {
         label: "Chrome Web Store",
+        icon: "chrome",
         url: "https://chromewebstore.google.com/detail/multiwarden-multi-account/cdigmfigoadangkckfadcmhabplleakc",
         for: ["chrome", "edge", "opera"],
       },
@@ -121,7 +122,7 @@ export const platforms: Platform[] = [
     repo: "multiwarden/android",
     tagPattern: /^v\d/,
     variants: [{ id: "apk", label: "APK", asset: /\.apk$/i }],
-    stores: [{ label: "Get it on Obtainium", url: obtainiumUrl, badge: "/badges/get-it-on-obtainium.png" }],
+    stores: [{ label: "Get it on Obtainium", url: obtainiumUrl, icon: "obtainium" }],
     install: [
       "Easiest: tap <em>Get it on Obtainium</em> on your phone. Obtainium installs Multiwarden and keeps it up to date.",
       "Or download the APK on your phone and open it. Allow installing from your browser when Android asks.",
