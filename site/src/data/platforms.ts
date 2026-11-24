@@ -70,7 +70,12 @@ export const platforms: Platform[] = [
         note: "Unsigned test build for macOS",
       },
     ],
-    stores: [],
+    stores: [
+      {
+        label: "Chrome Web Store",
+        url: "https://chromewebstore.google.com/detail/multiwarden-multi-account/cdigmfigoadangkckfadcmhabplleakc",
+      },
+    ],
     install: [
       "Download the package for your browser and unzip it.",
       "Chromium browsers: open the extensions page, turn on <em>Developer mode</em> and choose <em>Load unpacked</em>. Firefox: open <code>about:debugging</code> and choose <em>Load Temporary Add-on</em> (Firefox removes it again when it restarts).",
