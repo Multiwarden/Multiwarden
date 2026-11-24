@@ -6,6 +6,9 @@
 # - on a `repository_dispatch` of type `release`, which the app repositories can send after
 #   publishing a release to update the site straight away,
 # - by hand from the Actions tab.
+#
+# It also publishes the Multiwarden F-Droid repository at /fdroid/repo (see fdroid/build.sh) when
+# the FDROID_KEYSTORE_BASE64 and FDROID_KEYSTORE_PASSWORD secrets are set.
 name: Pages
 
 on:
@@ -14,6 +17,7 @@ on:
     paths:
       - "site/**"
       - "logo/logo512.png"
+      - "fdroid/**"
       - ".github/workflows/pages.yml"
   schedule:
     - cron: "17 * * * *"
@@ -35,6 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.compare.outputs.changed }}
+    env:
+      FDROID_KEYSTORE_BASE64: ${{ secrets.FDROID_KEYSTORE_BASE64 }}
     defaults:
       run:
         working-directory: site
@@ -69,6 +75,26 @@ jobs:
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Check out the Android app's store listing
+        if: steps.compare.outputs.changed == 'true' && env.FDROID_KEYSTORE_BASE64 != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: multiwarden/android
+          path: android
+          sparse-checkout: fastlane/metadata/android
+          persist-credentials: false
+
+      - name: Build the F-Droid repository
+        if: steps.compare.outputs.changed == 'true' && env.FDROID_KEYSTORE_BASE64 != ''
+        working-directory: .
+        env:
+          FDROID_KEYSTORE_PASSWORD: ${{ secrets.FDROID_KEYSTORE_PASSWORD }}
+          ANDROID_METADATA: android/fastlane/metadata/android
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pipx install fdroidserver==2.4.5
+          fdroid/build.sh
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
         if: steps.compare.outputs.changed == 'true'
