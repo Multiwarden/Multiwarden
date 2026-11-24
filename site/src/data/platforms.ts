@@ -27,7 +27,7 @@ export interface Store {
   label: string;
   url: string;
   /** Store logo shown on the button. */
-  icon?: "chrome" | "obtainium";
+  icon?: "chrome" | "obtainium" | "fdroid";
   /**
    * Variants this store serves, e.g. only Chromium browsers for the Chrome Web Store. When the
    * visitor's browser is detected and not listed, the store is hidden in favour of the direct
@@ -47,6 +47,11 @@ const obtainiumConfig = {
 };
 export const obtainiumUrl =
   "https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/" + encodeURIComponent(JSON.stringify(obtainiumConfig));
+
+// Add-repository link for Multiwarden's own F-Droid repository (built by fdroid/build.sh). F-Droid,
+// Droid-ify and Neo Store open it; the fingerprint is the repository signing key's.
+export const fdroidRepoUrl =
+  "https://multiwarden.com/fdroid/repo?fingerprint=6C008E322F4F321EB41A3FB7A55AB357F4898E3B1E2F0A51E9B6505D8D24241A";
 
 export interface Platform {
   /** Shown while no release exists, e.g. what it is waiting on. */
@@ -143,9 +148,12 @@ export const platforms: Platform[] = [
         button: "Download APK",
       },
     ],
-    stores: [{ label: "Get it on Obtainium", url: obtainiumUrl, icon: "obtainium" }],
+    stores: [
+      { label: "Get it on Obtainium", url: obtainiumUrl, icon: "obtainium" },
+      { label: "Add to F-Droid", url: fdroidRepoUrl, icon: "fdroid" },
+    ],
     install: [
-      "Easiest: tap <em>Get it on Obtainium</em> on your phone. Obtainium installs Multiwarden and keeps it up to date.",
+      "Easiest: tap <em>Get it on Obtainium</em> on your phone, or <em>Add to F-Droid</em> if you use F-Droid, Droid-ify or Neo Store. Either keeps Multiwarden up to date.",
       "Or download the APK on your phone and open it. Allow installing from your browser when Android asks.",
       "In Android's settings, choose <em>Multiwarden</em> as the autofill service.",
     ],

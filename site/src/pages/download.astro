@@ -50,7 +50,7 @@ const sections = platforms.map((p) => {
             data-os={JSON.stringify(p.os)}
           >
             <div class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-              <div class="flex items-center gap-4">
+              <div class="flex shrink-0 items-center gap-4">
                 <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/25">
                   <PlatformIcon id={p.id} class="size-5" />
                 </span>
@@ -75,7 +75,7 @@ const sections = platforms.map((p) => {
               </div>
 
               {p.release ? (
-                <div class="flex flex-wrap items-center gap-3 sm:shrink-0 sm:justify-end">
+                <div class="flex flex-wrap items-center gap-3 sm:justify-end">
                   {p.stores.map((s) => (
                     <a href={s.url} class="btn btn-primary" data-store-for={s.for?.join(" ")}>
                       {s.icon && <StoreIcon id={s.icon} class="size-4" />}
