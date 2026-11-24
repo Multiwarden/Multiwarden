@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="https://multiwarden.com">Website</a> ·
+  <a href="https://chromewebstore.google.com/detail/multiwarden-multi-account/cdigmfigoadangkckfadcmhabplleakc">Chrome Web Store</a> ·
   <a href="https://github.com/multiwarden/clients/releases">Releases</a> ·
   <a href="https://github.com/multiwarden/clients">Browser extension</a>
 </p>
