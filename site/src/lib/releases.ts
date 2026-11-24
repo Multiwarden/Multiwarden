@@ -10,6 +10,8 @@ export interface Download {
   variantId: string;
   label: string;
   note?: string;
+  /** Text of the main button when this is the suggested download. */
+  button: string;
   url: string;
   size: number;
 }
@@ -87,6 +89,7 @@ function toRelease(platform: Platform, r: GitHubRelease): Release {
       variantId: v.id,
       label: v.label,
       note: v.note,
+      button: v.button ?? `Download for ${v.label}`,
       url: asset.browser_download_url,
       size: asset.size,
     });

@@ -17,6 +17,8 @@ export interface Variant {
   asset: RegExp;
   /** Short hint shown next to the download. */
   note?: string;
+  /** Text of the main button when this is the suggested download; defaults to "Download for <label>". */
+  button?: string;
   /** Operating system this build is the suggested download for, e.g. "windows". */
   os?: "windows" | "macos" | "linux";
 }
@@ -24,8 +26,8 @@ export interface Variant {
 export interface Store {
   label: string;
   url: string;
-  /** Official badge image in `site/public/`, shown instead of a text button. */
-  badge?: string;
+  /** Store logo shown on the button. */
+  icon?: "chrome" | "obtainium";
   /**
    * Variants this store serves, e.g. only Chromium browsers for the Chrome Web Store. When the
    * visitor's browser is detected and not listed, the store is hidden in favour of the direct
@@ -102,6 +104,7 @@ export const platforms: Platform[] = [
     stores: [
       {
         label: "Chrome Web Store",
+        icon: "chrome",
         url: "https://chromewebstore.google.com/detail/multiwarden-multi-account/cdigmfigoadangkckfadcmhabplleakc",
         for: ["chrome", "edge", "opera"],
       },
@@ -120,8 +123,27 @@ export const platforms: Platform[] = [
     status: "soon",
     repo: "multiwarden/android",
     tagPattern: /^v\d/,
-    variants: [{ id: "apk", label: "APK", asset: /\.apk$/i }],
-    stores: [{ label: "Get it on Obtainium", url: obtainiumUrl, badge: "/badges/get-it-on-obtainium.png" }],
+    // Releases ship one APK per CPU type plus a universal one. The first one a release has is
+    // suggested; Obtainium picks the right one by itself.
+    variants: [
+      {
+        id: "arm64-v8a",
+        label: "Most phones",
+        asset: /-arm64-v8a\.apk$/,
+        note: "arm64-v8a",
+        button: "Download APK",
+      },
+      { id: "armeabi-v7a", label: "Older 32-bit phones", asset: /-armeabi-v7a\.apk$/, note: "armeabi-v7a" },
+      { id: "x86_64", label: "Chromebooks and emulators", asset: /-x86_64\.apk$/, note: "x86_64" },
+      {
+        id: "universal",
+        label: "Any device",
+        asset: /^multiwarden-[\d.]+\.apk$/,
+        note: "Universal, larger download",
+        button: "Download APK",
+      },
+    ],
+    stores: [{ label: "Get it on Obtainium", url: obtainiumUrl, icon: "obtainium" }],
     install: [
       "Easiest: tap <em>Get it on Obtainium</em> on your phone. Obtainium installs Multiwarden and keeps it up to date.",
       "Or download the APK on your phone and open it. Allow installing from your browser when Android asks.",

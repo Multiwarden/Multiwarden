@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import PlatformIcon from "../components/PlatformIcon.astro";
 import StatusPill from "../components/StatusPill.astro";
 import GitHubMark from "../components/GitHubMark.astro";
+import StoreIcon from "../components/StoreIcon.astro";
 import Download from "@lucide/astro/icons/download";
 import ArrowUpRight from "@lucide/astro/icons/arrow-up-right";
 import ChevronDown from "@lucide/astro/icons/chevron-down";
@@ -75,21 +76,13 @@ const sections = platforms.map((p) => {
 
               {p.release ? (
                 <div class="flex flex-wrap items-center gap-3 sm:shrink-0 sm:justify-end">
-                  {p.stores.map((s) =>
-                    s.badge ? (
-                      <a
-                        href={s.url}
-                        class="rounded-lg transition hover:-translate-y-0.5"
-                        data-store-for={s.for?.join(" ")}
-                      >
-                        <img src={s.badge} alt={s.label} width="161" height="48" class="h-11 w-auto" />
-                      </a>
-                    ) : (
-                      <a href={s.url} class="btn btn-primary" data-store-for={s.for?.join(" ")}>
-                        {s.label} <ArrowUpRight class="size-4" />
-                      </a>
-                    ),
-                  )}
+                  {p.stores.map((s) => (
+                    <a href={s.url} class="btn btn-primary" data-store-for={s.for?.join(" ")}>
+                      {s.icon && <StoreIcon id={s.icon} class="size-4" />}
+                      {s.label}
+                      <ArrowUpRight class="size-4 opacity-70" />
+                    </a>
+                  ))}
                   {p.primary && (
                     <a
                       href={p.primary.url}
@@ -98,7 +91,7 @@ const sections = platforms.map((p) => {
                     >
                       <Download class="size-4" />
                       <span data-primary-label>
-                        {p.downloads.length > 1 ? `Download for ${p.primary.label}` : `Download ${p.primary.label}`}
+                        {p.primary.button}
                       </span>
                     </a>
                   )}
@@ -130,7 +123,7 @@ const sections = platforms.map((p) => {
                           <a
                             href={d.url}
                             data-variant={d.variantId}
-                            data-label={d.label}
+                            data-button={d.button}
                             class="group/dl flex items-center justify-between gap-4 rounded-lg px-2 py-2.5 transition hover:bg-zinc-100 sm:px-2.5 dark:hover:bg-white/5"
                           >
                             <span class="min-w-0">
@@ -201,7 +194,7 @@ const sections = platforms.map((p) => {
     const primary = section.querySelector<HTMLAnchorElement>("[data-primary]");
     if (link && primary) {
       primary.href = link.href;
-      primary.querySelector("[data-primary-label]")!.textContent = `Download for ${link.dataset.label}`;
+      primary.querySelector("[data-primary-label]")!.textContent = link.dataset.button ?? "";
     }
     // Hide stores that don't serve this variant (the Chrome Web Store for Firefox), and make the
     // direct download the main button instead.
