@@ -67,7 +67,9 @@ added or changed. An app repository can also update the site straight away by se
 Platforms, their repositories, download files and store links are configured in
 `site/src/data/platforms.ts`. When a platform publishes its first GitHub release, it switches
 from "coming soon" to available everywhere on the site. Add store links to its `stores` list once
-a listing is live.
+a listing is live. The desktop app is released from multiwarden/clients together with
+the extension; `releaseAsset` tells the two apart, so a release only counts as a desktop release
+when it has desktop installers.
 
 `site/CNAME` holds the custom domain; it is copied into the build together with
 `logo/logo512.png`. Publishing needs GitHub Pages set to **GitHub Actions** (Settings → Pages →

@@ -7,11 +7,13 @@ import StatusPill from "../components/StatusPill.astro";
 import GitHubMark from "../components/GitHubMark.astro";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import Check from "@lucide/astro/icons/check";
+import ArrowUpRight from "@lucide/astro/icons/arrow-up-right";
 import { platforms, github } from "../data/platforms";
 import { getReleases, latestFor } from "../lib/releases";
 
 const releases = await getReleases();
 const latest = releases.find((r) => !r.prerelease) ?? releases[0];
+const chromeStore = platforms.find((p) => p.id === "browser")?.stores.find((s) => s.label === "Chrome Web Store");
 
 const platformCards = platforms.map((p) => {
   const release = latestFor(releases, p.id);
@@ -92,6 +94,14 @@ const faq = [
             <span>Download</span>
             <ArrowRight class="size-4" />
           </a>
+          {
+            chromeStore && (
+              <a href={chromeStore.url} class="btn btn-secondary !px-6 !py-3 text-base" data-store-cta>
+                Chrome Web Store
+                <ArrowUpRight class="size-4" />
+              </a>
+            )
+          }
           <a href={github.org} class="btn btn-secondary !px-6 !py-3 text-base">
             <GitHubMark class="size-4" />
             Source
@@ -219,8 +229,9 @@ const faq = [
             </span>
             <span class="min-w-0">
               <span class="block font-semibold tracking-tight">{p.name}</span>
-              <span class="mt-1 block">
+              <span class="mt-1 flex flex-wrap items-center gap-2">
                 <StatusPill status={p.state} />
+                {p.release && <span class="text-xs text-zinc-500">{p.release.version}</span>}
               </span>
             </span>
           </a>
@@ -325,7 +336,13 @@ const faq = [
   const cta = document.querySelector<HTMLAnchorElement>("[data-download-cta]");
   const detected = detectBrowser();
   const available = (cta?.dataset.available ?? "").split(",");
-  if (cta && detected && available.includes(detected.platform)) {
+  const store = document.querySelector<HTMLAnchorElement>("[data-store-cta]");
+  if (cta && store && detected?.variant === "chrome") {
+    // Chrome, Brave and Vivaldi install from the Chrome Web Store.
+    cta.querySelector("span")!.textContent = `Add to ${detected.label}`;
+    cta.href = store.href;
+    store.remove();
+  } else if (cta && detected && available.includes(detected.platform)) {
     cta.querySelector("span")!.textContent = `Download for ${detected.label}`;
     cta.href = `/download/#${detected.platform}`;
   }

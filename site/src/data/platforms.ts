@@ -37,6 +37,11 @@ export interface Platform {
   repo?: string;
   /** Which tags in `repo` are this platform's releases. */
   tagPattern?: RegExp;
+  /**
+   * When several platforms share a repository, a release only counts for this platform if it
+   * has an asset matching this pattern.
+   */
+  releaseAsset?: RegExp;
   variants: Variant[];
   stores: Store[];
   /** Install steps for direct downloads, as HTML. */
@@ -100,17 +105,55 @@ export const platforms: Platform[] = [
     id: "desktop",
     name: "Desktop",
     blurb: "Windows, macOS and Linux",
-    status: "planned",
-    roadmap: "Planned after Android.",
-    variants: [],
+    status: "soon",
+    // The desktop app is released together with the extension, from the same repository.
+    repo: "multiwarden/clients",
+    tagPattern: /^v\d/,
+    releaseAsset: /^Multiwarden-.*\.(exe|dmg|zip|AppImage|deb)$/,
+    variants: [
+      {
+        id: "windows",
+        label: "Windows",
+        asset: /^Multiwarden-.*-Setup\.exe$/,
+        note: "Installer",
+      },
+      {
+        id: "windows-portable",
+        label: "Windows portable",
+        asset: /^Multiwarden-.*-Portable\.exe$/,
+        note: "No installation",
+      },
+      {
+        id: "macos",
+        label: "macOS",
+        asset: /^Multiwarden-.*-mac-universal\.dmg$/,
+        note: "Apple silicon and Intel",
+      },
+      {
+        id: "linux-appimage",
+        label: "Linux AppImage",
+        asset: /^Multiwarden-.*\.AppImage$/,
+      },
+      {
+        id: "linux-deb",
+        label: "Linux .deb",
+        asset: /^Multiwarden-.*\.deb$/,
+        note: "Debian and Ubuntu",
+      },
+    ],
     stores: [],
+    install: [
+      "Download the installer for your system and run it. Bitwarden's desktop app can stay installed: Multiwarden keeps its own data.",
+      "Windows: the installer is not signed yet, so SmartScreen asks first; choose <em>More info</em> and <em>Run anyway</em>. macOS: the app is not notarized yet, so right-click it and choose <em>Open</em> the first time.",
+      "Sign in to and unlock your accounts. New versions are on this page; the app does not update itself.",
+    ],
   },
   {
     id: "ios",
     name: "iOS",
     blurb: "iPhone and iPad",
     status: "planned",
-    roadmap: "Planned after desktop.",
+    roadmap: "Planned next.",
     variants: [],
     stores: [],
   },
