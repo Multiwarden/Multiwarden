@@ -17,6 +17,8 @@ export interface Variant {
   asset: RegExp;
   /** Short hint shown next to the download. */
   note?: string;
+  /** Operating system this build is the suggested download for, e.g. "windows". */
+  os?: "windows" | "macos" | "linux";
 }
 
 export interface Store {
@@ -24,6 +26,12 @@ export interface Store {
   url: string;
   /** Official badge image in `site/public/`, shown instead of a text button. */
   badge?: string;
+  /**
+   * Variants this store serves, e.g. only Chromium browsers for the Chrome Web Store. When the
+   * visitor's browser is detected and not listed, the store is hidden in favour of the direct
+   * download. Leave out to always show it.
+   */
+  for?: string[];
 }
 
 // "Get it on Obtainium" link. Obtainium installs the APK from the GitHub release and updates it
@@ -60,6 +68,8 @@ export interface Platform {
   stores: Store[];
   /** Install steps for direct downloads, as HTML. */
   install?: string[];
+  /** Title of the install steps; defaults to "How to install". */
+  installTitle?: string;
 }
 
 export const platforms: Platform[] = [
@@ -93,8 +103,10 @@ export const platforms: Platform[] = [
       {
         label: "Chrome Web Store",
         url: "https://chromewebstore.google.com/detail/multiwarden-multi-account/cdigmfigoadangkckfadcmhabplleakc",
+        for: ["chrome", "edge", "opera"],
       },
     ],
+    installTitle: "Installing from a .zip",
     install: [
       "Download the package for your browser and unzip it.",
       "Chromium browsers: open the extensions page, turn on <em>Developer mode</em> and choose <em>Load unpacked</em>. Firefox: open <code>about:debugging</code> and choose <em>Load Temporary Add-on</em> (Firefox removes it again when it restarts).",
@@ -131,6 +143,7 @@ export const platforms: Platform[] = [
         label: "Windows",
         asset: /^Multiwarden-.*-Setup\.exe$/,
         note: "Installer",
+        os: "windows",
       },
       {
         id: "windows-portable",
@@ -143,11 +156,13 @@ export const platforms: Platform[] = [
         label: "macOS",
         asset: /^Multiwarden-.*-mac-universal\.dmg$/,
         note: "Apple silicon and Intel",
+        os: "macos",
       },
       {
         id: "linux-appimage",
         label: "Linux AppImage",
         asset: /^Multiwarden-.*\.AppImage$/,
+        os: "linux",
       },
       {
         id: "linux-deb",
