@@ -91,8 +91,15 @@ function toRelease(platform: Platform, r: GitHubRelease): Release {
       size: asset.size,
     });
   }
+  // Assets that belong to another platform released from the same repository.
+  const others = platforms
+    .filter((p) => p !== platform && p.repo === platform.repo)
+    .flatMap((p) => [
+      ...p.variants.map((v) => v.asset),
+      ...(p.releaseAsset ? [p.releaseAsset] : []),
+    ]);
   const extras = r.assets
-    .filter((a) => !used.has(a.name))
+    .filter((a) => !used.has(a.name) && !others.some((pattern) => pattern.test(a.name)))
     .map((a) => ({ name: a.name, url: a.browser_download_url, size: a.size }));
 
   return {
@@ -117,11 +124,12 @@ let cache: Promise<Release[]> | undefined;
 export function getReleases(): Promise<Release[]> {
   cache ??= (async () => {
     const all: Release[] = [];
+    const fetched: Record<string, Promise<GitHubRelease[]>> = {};
     for (const platform of platforms) {
       if (!platform.repo) continue;
       let list: GitHubRelease[];
       try {
-        list = await fetchReleases(platform.repo);
+        list = await (fetched[platform.repo] ??= fetchReleases(platform.repo));
       } catch (error) {
         // In CI a failed fetch must not publish a site without releases.
         if (process.env.CI) throw error;
@@ -131,6 +139,8 @@ export function getReleases(): Promise<Release[]> {
       for (const r of list) {
         if (r.draft) continue;
         if (platform.tagPattern && !platform.tagPattern.test(r.tag_name)) continue;
+        if (platform.releaseAsset && !r.assets.some((a) => platform.releaseAsset!.test(a.name)))
+          continue;
         all.push(toRelease(platform, r));
       }
     }
