@@ -22,7 +22,21 @@ export interface Variant {
 export interface Store {
   label: string;
   url: string;
+  /** Official badge image in `site/public/`, shown instead of a text button. */
+  badge?: string;
 }
+
+// "Get it on Obtainium" link. Obtainium installs the APK from the GitHub release and updates it
+// whenever a new release is published. The redirect page opens Obtainium with the app config
+// below, or offers to install Obtainium first. https://wiki.obtainium.imranr.dev/deep_links/
+const obtainiumConfig = {
+  id: "com.multiwarden.android",
+  url: "https://github.com/multiwarden/android",
+  author: "Multiwarden",
+  name: "Multiwarden",
+};
+export const obtainiumUrl =
+  "https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/" + encodeURIComponent(JSON.stringify(obtainiumConfig));
 
 export interface Platform {
   /** Shown while no release exists, e.g. what it is waiting on. */
@@ -90,10 +104,11 @@ export const platforms: Platform[] = [
     repo: "multiwarden/android",
     tagPattern: /^v\d/,
     variants: [{ id: "apk", label: "APK", asset: /\.apk$/i }],
-    stores: [],
+    stores: [{ label: "Get it on Obtainium", url: obtainiumUrl, badge: "/badges/get-it-on-obtainium.png" }],
     install: [
-      "Download the APK on your phone and open it.",
-      "Allow installing from your browser when Android asks.",
+      "Easiest: tap <em>Get it on Obtainium</em> on your phone. Obtainium installs Multiwarden and keeps it up to date.",
+      "Or download the APK on your phone and open it. Allow installing from your browser when Android asks.",
+      "In Android's settings, choose <em>Multiwarden</em> as the autofill service.",
     ],
   },
   {

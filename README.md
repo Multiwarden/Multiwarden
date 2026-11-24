@@ -9,6 +9,7 @@
 <p align="center">
   <a href="https://multiwarden.com">Website</a> ·
   <a href="https://chromewebstore.google.com/detail/multiwarden-multi-account/cdigmfigoadangkckfadcmhabplleakc">Chrome Web Store</a> ·
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.multiwarden.android%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fmultiwarden%2Fandroid%22%2C%22author%22%3A%22Multiwarden%22%2C%22name%22%3A%22Multiwarden%22%7D">Android (Obtainium)</a> ·
   <a href="https://github.com/multiwarden/clients/releases">Releases</a> ·
   <a href="https://github.com/multiwarden/clients">Browser extension</a>
 </p>
